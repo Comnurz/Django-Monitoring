@@ -1,36 +1,38 @@
 from bottle import run, template, get, post, request
-from pysnmp.entity.rfc3413.oneliner import cmdgen
+import psutil
 
-cmdGen = cmdgen.CommandGenerator()
-data=[]
-# server url (example: host:post/data)
-@get('/data')
+# server url (example: host:post/ramdata)
+@get('/ramdata')
+def ram():
+    data=[]
+    # output = sswap(total=2097147904, used=296128512, free=1801019392, percent=14.1, sin=304193536, sout=677842944)
+    ramdata=psutil.swap_memory()
+    out=["total","used","free","percent","sin","sout"]
+    for i in range (len(ramdata)):
+        data.append([out[i],ramdata[i]])
 
-def oidtoSend():
-    # grab data from form
-    errorIndication, errorStatus, errorIndex, varBindTable = cmdGen.nextCmd(
-        cmdgen.CommunityData('public'),
-        cmdgen.UdpTransportTarget(('localhost', 161)),
-        '1.3.6.1.4.1.2021.10.1.3.1', #CPU 1 minute load
-        # '1.3.6.1.2.1.1.1',         #System Description
-        '1.3.6.1.4.1.2021.4.6',      #total RAM used
-        '1.3.6.1.4.1.2021.9.1.8.1',  #Path where the disk is mounted
-    )
-    if errorIndication:
-        print(errorIndication)
-    else:
-        if errorStatus:
-            print('%s at %s' % (
-                errorStatus.prettyPrint(),
-                errorIndex and varBindTable[-1][int(errorIndex)-1] or '?'
-                )
-            )
-        else:
-            for varBindTableRow in varBindTable:
-                for name, val in varBindTableRow:
-                    data.append(val.prettyPrint())
-    print (data)
-    return data
+    return {'response': data}
+
+
+@get('/cpudata')
+def cpu():
+    data=[]
+    # Used cpu percent / output = 4.0 etc.
+    cpudata=psutil.cpu_percent(interval=1)
+    out=["percent"]
+    data.append([out[0],cpudata])
+    return {'response': data}
+
+@get('/diskdata')
+def disk():
+    data=[]
+    # output = sdiskusage(total=21378641920, used=4809781248, free=15482871808, percent=22.5)
+    diskdata=psutil.disk_usage('/')
+    out=["total","used","free","percent"]
+    for i in range (len(diskdata)):
+        data.append([out[i],diskdata[i]])
+
+    return {'response': data}
 
 # make api call
-run(host='localhost', port=8080)
+run(host='HOST', port=PORT)
