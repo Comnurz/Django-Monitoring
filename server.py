@@ -1,38 +1,35 @@
-from bottle import run, template, get, post, request
 import psutil
+import requests
 
-# server url (example: host:post/ramdata)
-@get('/ramdata')
-def ram():
-    data=[]
-    # output = sswap(total=2097147904, used=296128512, free=1801019392, percent=14.1, sin=304193536, sout=677842944)
-    ramdata=psutil.swap_memory()
-    out=["total","used","free","percent","sin","sout"]
-    for i in range (len(ramdata)):
-        data.append([out[i],ramdata[i]])
+ram=[]
+# expected output: total:xxxxxx used:xxxxxx free:xxxxxx percent:xxxxxx sin:xxxxxx sout:xxxxxx
+ramdata=psutil.swap_memory()
+# ram data types for editing
+ramout=["total","used","free","percent","sin","sout"]
+for i in range(len(ramdata)):
+    # editing ram array list like "total:data used:data free:data percent:data sin:data sout:data"
+    ram.append([ramout[i],ramdata[i]])
+# post data to url
+requests.post("/ramdata",params=ram)
 
-    return {'response': data}
+cpu=[]
+# expected output: percent:xxxxxx
+cpudata=psutil.cpu_percent(interval=1)
+# cpu data type for editing
+cpuout=["percent"]
+for i in range(len(cpudata)):
+    # editing cpu array list like "percent:data"
+    cpu.append([cpuout[i],cpudata[i]])
+# post data to url
+requests.post("/cpudata",params=cpu)
 
-
-@get('/cpudata')
-def cpu():
-    data=[]
-    # Used cpu percent / output = 4.0 etc.
-    cpudata=psutil.cpu_percent(interval=1)
-    out=["percent"]
-    data.append([out[0],cpudata])
-    return {'response': data}
-
-@get('/diskdata')
-def disk():
-    data=[]
-    # output = sdiskusage(total=21378641920, used=4809781248, free=15482871808, percent=22.5)
-    diskdata=psutil.disk_usage('/')
-    out=["total","used","free","percent"]
-    for i in range (len(diskdata)):
-        data.append([out[i],diskdata[i]])
-
-    return {'response': data}
-
-# make api call
-run(host='HOST', port=PORT)
+disk=[]
+# expected output: total: xxxxxx used:xxxxxx free:xxxxxx percent:xxxxxx
+diskdata=psutil.disk_usage('/')
+# disk data types for editing
+diskout=["total","used","free","percent"]
+for i in range(len(diskdata)):
+    # editing disk array list like "total: data used:data free:data percent:data"
+    disk.append([diskout[i],diskdata[i]])
+# post data to url
+requests.post("/diskdata",params=disk)
