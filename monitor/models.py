@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
 
 class Ram(models.Model):
     id=models.AutoField(primary_key=True)
@@ -14,7 +13,7 @@ class Ram(models.Model):
            default=timezone.now)
 
     def __str__(self):
-        return self.total
+        return str(self.total)
 
 class Cpu(models.Model):
     id=models.AutoField(primary_key=True)
@@ -23,7 +22,7 @@ class Cpu(models.Model):
            default=timezone.now)
 
     def __str__(self):
-        return self.percent
+        return str(self.percent)
 
 class Disk(models.Model):
     id=models.AutoField(primary_key=True)
@@ -35,7 +34,7 @@ class Disk(models.Model):
            default=timezone.now)
 
     def __str__(self):
-        return self.total
+        return str(self.total)
 
 class Server(models.Model):
     id=models.AutoField(primary_key=True)
@@ -52,4 +51,4 @@ class Server(models.Model):
 class Server_User(models.Model):
     id=models.AutoField(primary_key=True)
     server_id=models.ManyToManyField(Server)
-    user_id=models.ManyToManyField(User)
+    user_id=models.ManyToManyField('auth.User')
