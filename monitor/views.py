@@ -37,41 +37,26 @@ def diskSave(detail,server):
 
 # Create your views here.
 def index(request):
-  ramValues,diskValues,cpuValues=requestData()
+  ram=Ram.objects.all()
+  disk=Disk.objects.all()
+  cpu=Cpu.objects.all()
+  ramValues=[]
+  diskValues=[]
+  cpuValues=[]
+  ramUsed=[]
+  for i in ram:
+
+      ramValues.append([i.date.time,i.percent])
+      ramUsed.append([i.date.time,i.used])
+      print(i.used)
+  for j in disk:
+      diskValues.append([j.date.time,j.percent])
+  for k in cpu:
+      cpuValues.append([k.date.time,k.percent])
+
   return render(request, 'monitor/index.html', {
     'ramValues': ramValues,
+    'ramUsed':ramUsed,
     'diskValues':diskValues,
     'cpuValues':cpuValues
-
     })
-def ramData(request):
-    ramValues=request.body
-
-    return render(request,'monitor/ramdata.html',{'ramValues':ramValues})
-
-
-def requestData():
-  cpuList= []
-  ramList=[]
-  diskList=[]
-  # get ram data
-  resRam = requests.get('http://HOST:PORT/ramdata')
-  ramList=listBuilder(resRam)
-  # get cpu data
-  resCpu = requests.get('http://HOST:PORT/cpudata')
-  cpuList=listBuilder(resCpu)
-  # get disk data
-  resDisk = requests.get('http://HOST:PORT/diskdata')
-  diskList=listBuilder(resDisk)
-
-  return ramList,diskList ,cpuList
-
-# building a list for Google Charts
-def listBuilder(l):
-  newList=[]
-  jsonData=l.json()
-  items=jsonData.values()
-  for item in items:
-    for key in item:
-      newList.append([key[0],key[1]])
-  return newList

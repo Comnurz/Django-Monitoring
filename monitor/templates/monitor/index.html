@@ -1,42 +1,46 @@
 {% load googlecharts %}
 {# container #}
+<h1>Ram</h1>
 <div id="out_ram"></div>
+<h1>Cpu</h1>
 <div id="out_cpu"></div>
+<h1>Disk</h1>
 <div id="out_disk"></div>
 {% googlecharts %}
 	{# named data and options can be reused #}
 	{% data ramValues "out_ram" %}
 		{% col "string" "Name" %}"{{ val }}"{% endcol %}
-		{% col "number" "Value" %}{{ val }}{% endcol %}
+		{% col "number" "Ram Percent" %}{{ val }}{% endcol %}
 	{% enddata %}
+
 	{% data cpuValues "out_cpu" %}
 		{% col "string" "Name" %}"{{ val }}"{% endcol %}
-		{% col "number" "Value" %}{{ val }}{% endcol %}
+		{% col "number" "Cpu Percent" %}{{ val }}{% endcol %}
 	{% enddata %}
 	{% data diskValues "out_disk" %}
 		{% col "string" "Name" %}"{{ val }}"{% endcol %}
-		{% col "number" "Value" %}{{ val }}{% endcol %}
+		{% col "number" "Disk Percent" %}{{ val }}{% endcol %}
 	{% enddata %}
 	{# you can also use global javascript variables here, #}
 	{# and call functions #}
 	{% options "options_ram" %}
-		kind: "PieChart",
+		kind: "LineChart",
 		options: {
-			width: 300,
+			width: 500,
 			height: 240
 		}
 	{% endoptions %}
 	{% options "options_cpu" %}
-		kind: "PieChart",
+		kind: "LineChart",
 		options: {
-			width: 300,
+			width: 500,
 			height: 240
 		}
 	{% endoptions %}
 	{% options "options_disk" %}
-		kind: "PieChart",
+		kind: "LineChart",
 		options: {
-			width: 300,
+			width: 500,
 			height: 240
 		}
 	{% endoptions %}
