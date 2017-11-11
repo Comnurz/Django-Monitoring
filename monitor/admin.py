@@ -12,12 +12,12 @@ class CpuAdmin(admin.ModelAdmin):
 class DiskAdmin(admin.ModelAdmin):
     list_display=('total','used','free','percent','date')
 
-class ServerAdmin(admin.ModelAdmin):
-    list_display=('server_name','ram_link','cpu_link','disk_link','date')
+# class ServerAdmin(admin.ModelAdmin):
+#     list_display=('server_name','ram_link','cpu_link','disk_link','date')
 
 # Register your models here.
 admin.site.register(Ram,RamAdmin)
 admin.site.register(Cpu,CpuAdmin)
 admin.site.register(Disk,DiskAdmin)
-admin.site.register(Server,ServerAdmin)
+admin.site.register(Server)
 admin.site.register(Server_User)

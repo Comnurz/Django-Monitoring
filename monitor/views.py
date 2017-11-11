@@ -1,5 +1,40 @@
 from django.shortcuts import render
 import requests
+
+from django.http import request, JsonResponse, HttpResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from monitor.models import Ram,Cpu,Disk,Server
+from django.contrib.auth.models import User
+
+@api_view(['POST','OPTIONS'])
+def dbSave(request):
+    ram=request.GET.getlist('ram','')
+    cpu=request.GET.getlist('cpu','')
+    disk=request.GET.getlist('disk','')
+    server=request.GET.get('server','')
+
+    ramSave(ram,server)
+    cpuSave(cpu,server)
+    diskSave(disk,server)
+    return Response(True)
+def ramSave(detail,server):
+    server=Server.objects.get(id=server)
+    ram=Ram(total=detail[0],used=detail[1],free=detail[2],percent=float(detail[3]),sin=detail[4],sout=detail[5],server_id=server)
+    ram.save()
+
+def cpuSave(detail,server):
+    server=Server.objects.get(id=server)
+    cpu=Cpu(percent=float(detail[0]),server_id=server)
+    cpu.save()
+
+def diskSave(detail,server):
+    server=Server.objects.get(id=server)
+    disk=Disk(total=detail[0],used=detail[1],free=detail[2],percent=float(detail[3]),server_id=server)
+    disk.save()
+
+
 # Create your views here.
 def index(request):
   ramValues,diskValues,cpuValues=requestData()
@@ -9,6 +44,11 @@ def index(request):
     'cpuValues':cpuValues
 
     })
+def ramData(request):
+    ramValues=request.body
+
+    return render(request,'monitor/ramdata.html',{'ramValues':ramValues})
+
 
 def requestData():
   cpuList= []
