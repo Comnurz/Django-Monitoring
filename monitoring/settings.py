@@ -26,7 +26,9 @@ SECRET_KEY = 'yz=@8ve-u#bum0_-%gvc^fiv#&b-t%$dy!7v4k%s2(^4eg-*a^'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
 # Application definition
 
@@ -37,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    
     'monitor',
     'googlecharts',
 ]

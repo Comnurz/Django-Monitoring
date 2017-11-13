@@ -1,5 +1,11 @@
 {% load googlecharts %}
 {# container #}
+{% if user.is_authenticated %}
+	<a href="/logout">çıkış</a>
+{% else %}
+	<a href="/login">Giriş</a>
+	<a href="/signup">kayıt</a>
+{% endif %}
 <h1>Ram</h1>
 <div id="out_ram"></div>
 <h1>Cpu</h1>
