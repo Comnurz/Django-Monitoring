@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from monitor.forms import SignUpForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from monitor.models import Ram,Cpu,Disk,Server,Server_User
 from django.contrib.auth.models import User
@@ -46,8 +46,57 @@ def diskSave(detail,server):
     disk=Disk(total=detail[0],used=detail[1],free=detail[2],percent=float(detail[3]),server_id=server)#save data to disk
     disk.save()
 
-
 # Create your views here.
+def detail(request):
+    current_user=request.user
+
+    server_userobj=Server_User.objects.filter(user_id=current_user.id).exists() #check server user pairing
+    if server_userobj:
+        servers=[]
+        server=Server_User.objects.filter(user_id=current_user.id).values_list('server_id',flat=True)
+        for i in range(len(server)):
+            servers.append(Server.objects.get(id=server[i]))
+            print (server[i])
+        print(servers)
+        return render(request, 'monitor/detail.html', {'servers': servers})
+    else:
+        return redirect('server')
+
+def server_detail(request,pk):
+
+    # Get data from database
+    ram=Ram.objects.all().filter(server_id=pk)
+    disk=Disk.objects.all().filter(server_id=pk)
+    cpu=Cpu.objects.all().filter(server_id=pk)
+
+    # Create arrays from data for charts
+    ramValues=[]
+    diskValues=[]
+    cpuValues=[]
+    ramUsed=[]
+
+    # Update arrays for charts
+    for i in ram:
+        ramValues.append([i.date.time,i.percent])
+        ramUsed.append([i.date.time,i.used])
+    for j in disk:
+        diskValues.append([j.date.time,j.percent])
+    for k in cpu:
+        cpuValues.append([k.date.time,k.percent])
+
+    if ramValues and cpuValues and diskValues:
+        return render(request, 'monitor/server_detail.html', {
+        'ramValues': ramValues,
+        'ramUsed':ramUsed,
+        'diskValues':diskValues,
+        'cpuValues':cpuValues
+        })
+    else:
+        return redirect('howtosetup')
+
+def howtosetup(request):
+    return render(request,'monitor/howtosetup.html')
+
 def index(request):
     # Get data from database
     ram=Ram.objects.all()
