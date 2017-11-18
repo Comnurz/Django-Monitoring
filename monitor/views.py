@@ -9,6 +9,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from monitor.forms import SignUpForm
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.urlresolvers import reverse
 
 from monitor.models import Ram,Cpu,Disk,Server,Server_User
 from django.contrib.auth.models import User
@@ -56,8 +57,6 @@ def detail(request):
         server=Server_User.objects.filter(user_id=current_user.id).values_list('server_id',flat=True)
         for i in range(len(server)):
             servers.append(Server.objects.get(id=server[i]))
-            print (server[i])
-        print(servers)
         return render(request, 'monitor/detail.html', {'servers': servers})
     else:
         return redirect('server')
@@ -98,32 +97,8 @@ def howtosetup(request):
     return render(request,'monitor/howtosetup.html')
 
 def index(request):
-    # Get data from database
-    ram=Ram.objects.all()
-    disk=Disk.objects.all()
-    cpu=Cpu.objects.all()
+        return render(request,'monitor/index.html')
 
-    # Create arrays from data for charts
-    ramValues=[]
-    diskValues=[]
-    cpuValues=[]
-    ramUsed=[]
-
-    # Update arrays for charts
-    for i in ram:
-      ramValues.append([i.date.time,i.percent])
-      ramUsed.append([i.date.time,i.used])
-    for j in disk:
-      diskValues.append([j.date.time,j.percent])
-    for k in cpu:
-      cpuValues.append([k.date.time,k.percent])
-
-    return render(request, 'monitor/index.html', {
-    'ramValues': ramValues,
-    'ramUsed':ramUsed,
-    'diskValues':diskValues,
-    'cpuValues':cpuValues
-    })
 
 # Create Server
 def server(request):
@@ -131,9 +106,14 @@ def server(request):
         if request.method== 'POST':
             form=ServerForm(request.POST)
             if form.is_valid():
-                server=form.save()
                 server_name=form.cleaned_data.get('server_name')
                 current_user=request.user
+                server=Server_User.objects.filter(user_id=current_user.id).values_list('server_id',flat=True)
+                for i in range(len(server)):
+                    servers=Server.objects.get(id=server[i])
+                    if servers.server_name==server_name:
+                        return render(request,'registration/server.html',{'message':"Aynı isimde server Oluşturamazsın",'form':form})
+                server=form.save()
 
                 serverobj=Server.objects.get(id=server.id)
                 userobj=User.objects.get(id=current_user.id)

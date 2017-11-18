@@ -1,3 +1,20 @@
+{# container #}
+<a href="/">Anasayfa</a>
+
+{% if user.is_authenticated %}
+	<a href="/logout">çıkış</a>
+	<a href="/server">server</a>
+	<a href="/detail">server detail</a>
+	<a href="/howtosetup">how to setup</a>
+
+{% else %}
+	<a href="/login">Giriş</a>
+	<a href="/signup">kayıt</a>
+{% endif %}
+
+
+
+
 <h2>Sign up</h2>
  <form method="post">
    {% csrf_token %}
