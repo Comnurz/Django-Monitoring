@@ -1,19 +1,21 @@
-{# container #}
-<a href="/">Anasayfa</a>
-
-{% if user.is_authenticated %}
-	<a href="/logout">çıkış</a>
-	<a href="/server">server</a>
-	<a href="/detail">server detail</a>
-	<a href="/howtosetup">how to setup</a>
-
-{% else %}
-	<a href="/login">Giriş</a>
-	<a href="/signup">kayıt</a>
-{% endif %}
+{% extends "monitor/base.html" %}
 
 
+{% block content %}
+<h1>Django monitoring web application</h1>
+<p>
+	server.py run on your server which want to get data.
+	Run this commant in your server terminal:
+	<pre>
+		<code>pip3 install -r serverrequirements.txt</code>
+	</pre>
+</p>
 
-<h1>
-  Setup
-</h1>
+<p>
+	Please enter your username, password and server name for verify on server.py . If you see "Success" everything is OK.
+</p>
+<p>
+	If not see success something went wrong please check your username or password or servername.
+</p>
+
+{% endblock content %}

@@ -1,0 +1,23 @@
+<body>
+    <div class="page-header">
+        <h1><a href="/">Django Monitoring</a></h1>
+        {% if user.is_authenticated %}
+        	<a href="/logout">Singout</a>
+        	<a href="/server">Create Server</a>
+        	<a href="/detail">Server List</a>
+        	<a href="/howtosetup">How to Setup</a>
+
+        {% else %}
+        	<a href="/login">Singin</a>
+        	<a href="/signup">Singup</a>
+        {% endif %}
+    </div>
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
