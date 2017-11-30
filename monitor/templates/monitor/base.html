@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Django Monitoring</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{% static 'bootstrap/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -90,11 +90,26 @@
                         <li>
                             <a href="#"><i class="fa fa-th-list fa-fw"></i> Server List<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
+                              {% for server in servers %}
                                 <li>
-                                    {% for server in servers %}
-                                      <a href="{% url 'server_detail' pk=server.id %}">{{ server.server_name }}</a>
-                                    {% endfor %}
+                                  <a href="#"><i class="fa fa-server fa-fw"></i> {{ server.server_name }}<span class="fa arrow"></span></a>
+                                  <ul class="nav nav-third-level">
+                                    <li>
+                                      <a href="{% url 'ram_detail' pk=server.id %}"><i class="glyphicon glyphicon-hdd"></i> RAM</a>
+                                    </li>
+                                    <li>
+                                      <a href="{% url 'cpu_detail' pk=server.id %}"><i class="fa fa-square"></i> CPU</a>
+                                    </li>
+                                    <li>
+                                      <a href="{% url 'disk_detail' pk=server.id %}"><i class="glyphicon glyphicon-floppy-disk"></i> DİSK</a>
+                                    </li>
+                                    <li>
+                                      <a href="{% url 'server_detail' pk=server.id %}"><i class="fa fa-bar-chart-o"></i> All Charts</a>
+                                    </li>
+                                  </ul>
+                                  <!-- /.nav-third-level -->
                                 </li>
+                              {% endfor %}
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

@@ -61,6 +61,46 @@ def detail(request):
     else:
         return redirect('server')
 
+
+def cpu_detail(request,pk):
+    json_serializer=serializers.get_serializer("json")()
+
+    cpus = json_serializer.serialize(Cpu.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
+    cpuExists=Cpu.objects.all().filter(server_id=pk).exists()
+
+    if cpuExists:
+        return render(request, 'monitor/cpu_detail.html', {
+        'cpuValues': cpus,
+        })
+    else:
+        return redirect('howtosetup')
+
+def disk_detail(request,pk):
+    json_serializer=serializers.get_serializer("json")()
+
+    disks = json_serializer.serialize(Disk.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
+    diskExists=Disk.objects.all().filter(server_id=pk).exists()
+
+    if diskExists:
+        return render(request, 'monitor/disk_detail.html', {
+        'diskValues': disks,
+        })
+    else:
+        return redirect('howtosetup')
+
+def ram_detail(request,pk):
+    json_serializer=serializers.get_serializer("json")()
+
+    rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
+    ramExists=Ram.objects.all().filter(server_id=pk).exists()
+
+    if ramExists:
+        return render(request, 'monitor/ram_detail.html', {
+        'ramValues': rams,
+        })
+    else:
+        return redirect('howtosetup')
+
 def server_detail(request,pk):
     json_serializer = serializers.get_serializer("json")()
 
@@ -74,16 +114,16 @@ def server_detail(request,pk):
     rams=json_serializer.serialize(reversedRamValues) --> get json from ramValues
     '''
     rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
-    ramexists=Ram.objects.all().filter(server_id=pk).exists()
+    ramExists=Ram.objects.all().filter(server_id=pk).exists()
 
     cpus = json_serializer.serialize(Cpu.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
-    cpuexists=Cpu.objects.all().filter(server_id=pk).exists()
+    cpuExists=Cpu.objects.all().filter(server_id=pk).exists()
 
     disks = json_serializer.serialize(Disk.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
-    diskexists=Disk.objects.all().filter(server_id=pk).exists()
+    diskExists=Disk.objects.all().filter(server_id=pk).exists()
 
     # if expected data is exists, go to the how to setup.
-    if ramexists and cpuexists and diskexists:
+    if ramExists and cpuExists and diskExists:
         return render(request, 'monitor/server_detail.html', {
         'ramValues': rams,
         'diskValues':disks,

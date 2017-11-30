@@ -16,9 +16,9 @@ urlpatterns = [
     url(r'^server/$',views.server,name='server'),
 
     # Detail pages
-    # url(r'^ramdetail/(?P<pk>[0-9]+)/$', views.ram_detail, name='ram_detail'),
-    # url(r'^cpudetail/(?P<pk>[0-9]+)/$', views.cpu_detail, name='cpu_detail'),
-    # url(r'^diskdetail/(?P<pk>[0-9]+)/$', views.disk_detail, name='disk_detail'),
+    url(r'^ramdetail/(?P<pk>[0-9]+)/$', views.ram_detail, name='ram_detail'),
+    url(r'^cpudetail/(?P<pk>[0-9]+)/$', views.cpu_detail, name='cpu_detail'),
+    url(r'^diskdetail/(?P<pk>[0-9]+)/$', views.disk_detail, name='disk_detail'),
     url(r'^detail/(?P<pk>[0-9]+)/$', views.server_detail, name='server_detail'),
 
     # For Development
