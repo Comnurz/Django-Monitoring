@@ -1,59 +1,147 @@
 {% extends "monitor/base.html" %}
+{% load staticfiles %}
+
+
+{% block css %}
+<!-- Morris Charts CSS -->
+<link href="{% static 'bootstrap/vendor/morrisjs/morris.css' %}" rel="stylesheet">
+{% endblock css %}
 
 {% block content %}
-	{% load googlecharts %}
-	<!-- Body -->
-	{% if user.is_authenticated %}
-	<h1>Ram</h1>
-	<div id="out_ram"></div>
-	<h1>Cpu</h1>
-	<div id="out_cpu"></div>
-	<h1>Disk</h1>
-	<div id="out_disk"></div>
-	{% googlecharts %}
-		{# named data and options can be reused #}
-		{% data ramValues "out_ram" %}
-			{% col "string" "Name" %}"{{ val }}"{% endcol %}
-			{% col "number" "Ram Percent" %}{{ val }}{% endcol %}
-		{% enddata %}
-
-		{% data cpuValues "out_cpu" %}
-			{% col "string" "Name" %}"{{ val }}"{% endcol %}
-			{% col "number" "Cpu Percent" %}{{ val }}{% endcol %}
-		{% enddata %}
-		{% data diskValues "out_disk" %}
-			{% col "string" "Name" %}"{{ val }}"{% endcol %}
-			{% col "number" "Disk Percent" %}{{ val }}{% endcol %}
-		{% enddata %}
-		{# you can also use global javascript variables here, #}
-		{# and call functions #}
-		{% options "options_ram" %}
-			kind: "LineChart",
-			options: {
-				width: 500,
-				height: 240
-			}
-		{% endoptions %}
-		{% options "options_cpu" %}
-			kind: "LineChart",
-			options: {
-				width: 500,
-				height: 240
-			}
-		{% endoptions %}
-		{% options "options_disk" %}
-			kind: "LineChart",
-			options: {
-				width: 500,
-				height: 240
-			}
-		{% endoptions %}
-		{# chart is assembled from container, data and options #}
-		{% graph "out_ram" "out_ram" "options_ram" %}
-		{% graph "out_cpu" "out_cpu" "options_cpu" %}
-		{% graph "out_disk" "out_disk" "options_disk" %}
-	{% endgooglecharts %}
-	{% else %}
-		<h3>	Lütfen <a href="/login">Giriş</a> Yapın.Eğer üye değilseniz üye olmak için <a href="/signup">tıklayınız.</a></h3>
-	{% endif %}
+<h1></h1>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Cpu Percent Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="cpuchart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Ram Percent Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="ramchart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Percent Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="diskchart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+  </div>
+</div>
 {% endblock content %}
+
+
+{% block script %}
+<!-- Morris Charts JavaScript -->
+<script src="{% static 'bootstrap/vendor/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'bootstrap/vendor/morrisjs/morris.min.js' %}"></script>
+<script src="{% static 'bootstrap/data/morris-data.js' %}"></script>
+<script type="text/javascript">
+  var ramValuesJson=JSON.parse("{{ramValues|escapejs}}")
+  var cpuValuesJson=JSON.parse("{{cpuValues|escapejs}}")
+  var diskValuesJson=JSON.parse("{{diskValues|escapejs}}")
+
+  var ramValuesforCharts=[]
+  var cpuValuesforCharts=[]
+  var diskValuesforCharts=[]
+
+  for (var i = 0; i < ramValuesJson.length; i++) {
+    var date=ramValuesJson[i].fields.date;
+    var sliced=date.slice(-13,-8)
+
+    ramValuesforCharts.push({
+      hour: sliced,
+      ramPercent: ramValuesJson[i].fields.percent,
+    });
+  }
+
+  for (var i = 0; i < cpuValuesJson.length; i++) {
+    var cpudate=cpuValuesJson[i].fields.date;
+    var cpusliced=cpudate.slice(-13,-8)
+
+    cpuValuesforCharts.push({
+      hour: cpusliced,
+      cpuPercent: cpuValuesJson[i].fields.percent,
+    });
+  }
+
+  for (var i = 0; i < diskValuesJson.length; i++) {
+    var diskdate=diskValuesJson[i].fields.date;
+    var disksliced=diskdate.slice(-13,-8)
+
+    diskValuesforCharts.push({
+      hour: disksliced,
+      diskPercent: diskValuesJson[i].fields.percent,
+    });
+  }
+  new Morris.Line({
+    // ID of the element in which to draw the chart.
+    element: 'ramchart',
+
+    // Chart data records -- each entry in this array corresponds to a point on the chart.
+    data: ramValuesforCharts,
+    // The name of the data record attribute that contains x-values.
+    xkey: 'hour',
+    // A list of names of data record attributes that contain y-values.
+    ykeys: ['ramPercent'],
+    // Labels for the ykeys -- will be displayed when you hover over the chart.
+    labels: ['Ram Percent'],
+    pointSize:2,
+    hideHover:'auto',
+    parseTime: false
+  });
+
+  new Morris.Line({
+    // ID of the element in which to draw the chart.
+    element: 'cpuchart',
+
+    // Chart data records -- each entry in this array corresponds to a point on the chart.
+    data: cpuValuesforCharts,
+    // The name of the data record attribute that contains x-values.
+    xkey: 'hour',
+    // A list of names of data record attributes that contain y-values.
+    ykeys: ['cpuPercent',],
+    // Labels for the ykeys -- will be displayed when you hover over the chart.
+    labels: ['Cpu Percent'],
+    pointSize:2,
+    hideHover:'auto',
+    parseTime: false
+  });
+  new Morris.Line({
+    // ID of the element in which to draw the chart.
+    element: 'diskchart',
+
+    // Chart data records -- each entry in this array corresponds to a point on the chart.
+    data: diskValuesforCharts,
+    // The name of the data record attribute that contains x-values.
+    xkey: 'hour',
+    // A list of names of data record attributes that contain y-values.
+    ykeys: ['diskPercent'],
+    // Labels for the ykeys -- will be displayed when you hover over the chart.
+    labels: ['Disk Percent'],
+    pointSize:2,
+    hideHover:'auto',
+    parseTime: false
+  });
+</script>
+
+{% endblock script %}

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .models import Server
 
 
-# Forms here
+# Forms
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
     last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
@@ -16,6 +16,7 @@ class SignUpForm(UserCreationForm):
 
 class ServerForm(forms.ModelForm):
     server_name = forms.CharField(max_length=150, required=True)
+
     class Meta:
         model = Server
         fields=('server_name',)

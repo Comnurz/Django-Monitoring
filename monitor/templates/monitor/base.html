@@ -61,7 +61,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                       {% if user.is_authenticated %}
-                        <li><a href="/detail"><i class="fa fa-bar-chart-o fa-fw"></i> Server List</a>
+                        <li><a href="/detail"><i class="fa fa-th-list fa-fw"></i> Server List</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -88,8 +88,17 @@
                         </li>
                         {% if user.is_authenticated %}
                         <li>
-                            <a href="/detail"><i class="fa fa-bar-chart-o fa-fw"></i> Server List</a>
+                            <a href="#"><i class="fa fa-th-list fa-fw"></i> Server List<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    {% for server in servers %}
+                                      <a href="{% url 'server_detail' pk=server.id %}">{{ server.server_name }}</a>
+                                    {% endfor %}
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
                         </li>
+
                         <li>
                             <a href="/server"><i class="fa fa-edit fa-fw"></i> Create Server</a>
                         </li>

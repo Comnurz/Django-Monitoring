@@ -7,15 +7,15 @@ from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from monitor.forms import SignUpForm
+from monitor.forms import SignUpForm, ServerForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
+
+from django.core import serializers
 
 from monitor.models import Ram,Cpu,Disk,Server,Server_User
 from django.contrib.auth.models import User
 from passlib.hash import pbkdf2_sha256
-
-from .forms import ServerForm
 
 @api_view(['POST','OPTIONS'])
 def dbSave(request):
@@ -62,33 +62,23 @@ def detail(request):
         return redirect('server')
 
 def server_detail(request,pk):
+    json_serializer = serializers.get_serializer("json")()
 
-    # Get data from database
-    ram=Ram.objects.all().filter(server_id=pk)
-    disk=Disk.objects.all().filter(server_id=pk)
-    cpu=Cpu.objects.all().filter(server_id=pk)
+    rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk), ensure_ascii=False)
+    ramexists=Ram.objects.all().filter(server_id=pk).exists()
 
-    # Create arrays from data for charts
-    ramValues=[]
-    diskValues=[]
-    cpuValues=[]
-    ramUsed=[]
+    cpus = json_serializer.serialize(Cpu.objects.all().filter(server_id=pk), ensure_ascii=False)
+    cpuexists=Cpu.objects.all().filter(server_id=pk).exists()
 
-    # Update arrays for charts
-    for i in ram:
-        ramValues.append([i.date.time,i.percent])
-        ramUsed.append([i.date.time,i.used])
-    for j in disk:
-        diskValues.append([j.date.time,j.percent])
-    for k in cpu:
-        cpuValues.append([k.date.time,k.percent])
+    disks = json_serializer.serialize(Disk.objects.all().filter(server_id=pk), ensure_ascii=False)
+    diskexists=Disk.objects.all().filter(server_id=pk).exists()
 
-    if ramValues and cpuValues and diskValues:
+    # if expected data is null, go to the how to setup.
+    if ramexists and cpuexists and diskexists:
         return render(request, 'monitor/server_detail.html', {
-        'ramValues': ramValues,
-        'ramUsed':ramUsed,
-        'diskValues':diskValues,
-        'cpuValues':cpuValues
+        'ramValues': rams,
+        'diskValues':disks,
+        'cpuValues':cpus
         })
     else:
         return redirect('howtosetup')
