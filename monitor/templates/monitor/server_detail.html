@@ -21,7 +21,9 @@
         </div>
         <!-- /.panel-body -->
     </div>
+    <!-- /.panel-default -->
   </div>
+  <!-- /.col-lg-12 -->
   <div class="col-lg-6">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -33,7 +35,9 @@
         </div>
         <!-- /.panel-body -->
     </div>
+    <!-- /.panel-default -->
   </div>
+  <!-- /.col-lg-6 -->
   <div class="col-lg-6">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -45,8 +49,11 @@
         </div>
         <!-- /.panel-body -->
     </div>
+    <!-- /.panel-default -->
   </div>
+  <!-- /.col-lg-6 -->
 </div>
+<!-- /.row -->
 {% endblock content %}
 
 
@@ -60,10 +67,12 @@
   var cpuValuesJson=JSON.parse("{{cpuValues|escapejs}}")
   var diskValuesJson=JSON.parse("{{diskValues|escapejs}}")
 
+  // create empty dicts for charts
   var ramValuesforCharts=[]
   var cpuValuesforCharts=[]
   var diskValuesforCharts=[]
 
+  // update dicts for charts
   for (var i = 0; i < ramValuesJson.length; i++) {
     var date=ramValuesJson[i].fields.date;
     var sliced=date.slice(-13,-8)
@@ -93,6 +102,8 @@
       diskPercent: diskValuesJson[i].fields.percent,
     });
   }
+
+  // total is show 28
   new Morris.Line({
     // ID of the element in which to draw the chart.
     element: 'ramchart',
@@ -143,5 +154,6 @@
     parseTime: false
   });
 </script>
+<!-- /.text/javascript -->
 
 {% endblock script %}

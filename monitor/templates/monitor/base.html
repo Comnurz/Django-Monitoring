@@ -114,11 +114,13 @@
                         </li>
                         {% endif %}
                     </ul>
+                    <!-- /.nav -->
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
-            <!-- /.navbar-static-side -->
+            <!-- /.sidebar -->
         </nav>
+        <!-- /.navbar-static-top -->
 
         <!-- Page Content -->
         <div id="page-wrapper">
@@ -137,7 +139,7 @@
       <!-- /#page-wrapper -->
 
   </div>
-
+  <!-- /.wrapper -->
 
     <!-- jQuery -->
     <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
@@ -150,7 +152,8 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{% static 'bootstrap/dist/js/sb-admin-2.js' %}"></script>
-    {% block script %}{% endblock script %}
+    {% block script %}
+    {% endblock script %}
 </body>
 
 </html>

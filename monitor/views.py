@@ -64,16 +64,25 @@ def detail(request):
 def server_detail(request,pk):
     json_serializer = serializers.get_serializer("json")()
 
-    rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk), ensure_ascii=False)
+    '''
+    mysql command is : "select * from Ram where server_id=pk orderby id desc 28"
+    or this command be like this:
+    ramValues=Ram.objects.all() --> get all ram objects
+    filteredRamValues=ramValues.filter(server_id=pk) --> ramValues filter by server_id
+    orderedRamValues=filteredRamValues.order_by('-id')[:28] --> get ramValues last 28 item
+    reversedRamValues=reversed(orderedRamValues) --> this command is reversed ramValues
+    rams=json_serializer.serialize(reversedRamValues) --> get json from ramValues
+    '''
+    rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
     ramexists=Ram.objects.all().filter(server_id=pk).exists()
 
-    cpus = json_serializer.serialize(Cpu.objects.all().filter(server_id=pk), ensure_ascii=False)
+    cpus = json_serializer.serialize(Cpu.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
     cpuexists=Cpu.objects.all().filter(server_id=pk).exists()
 
-    disks = json_serializer.serialize(Disk.objects.all().filter(server_id=pk), ensure_ascii=False)
+    disks = json_serializer.serialize(Disk.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
     diskexists=Disk.objects.all().filter(server_id=pk).exists()
 
-    # if expected data is null, go to the how to setup.
+    # if expected data is exists, go to the how to setup.
     if ramexists and cpuexists and diskexists:
         return render(request, 'monitor/server_detail.html', {
         'ramValues': rams,
