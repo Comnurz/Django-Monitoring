@@ -3,9 +3,7 @@
 {% block content %}
 	{% for server in servers %}
 	    <div>
-	        <h1><a href="{% url 'server_detail' pk=server.id %}">{{ server.server_name }}</a></h1>
+	        <h1><a href="{% url 'chart' pk=server.id %}">{{ server.server_name }}</a></h1>
 	    </div>
 	{% endfor %}
-
-	
 {% endblock content %}

@@ -97,9 +97,6 @@
                         <li>
                             <a href="#"><i class="fa fa-th-list fa-fw"></i> Server List<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <!-- <li>
-                                    <a href="/server"><i class="fa fa-edit fa-fw"></i> Please Create Server</a>
-                                </li> -->
                                 {% for server in servers %}
                                   <li>
                                     <a href="#"></i> {{ server.server_name|title }}<span class="fa arrow"></span></a>
@@ -123,9 +120,11 @@
                                 <!-- endfor server in servers  -->
                                 {% else %}
                                 <!-- else servers == "is null" -->
-                                <li>Your server list is empty please create a server</li>
-                              {% endif %}
-                              <!-- endif servers == "is null" -->
+
+                                  <!-- what you want -->
+
+                                {% endif %}
+                                <!-- endif servers != "is null" -->
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

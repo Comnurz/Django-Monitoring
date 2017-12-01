@@ -8,7 +8,9 @@ from django.core.urlresolvers import reverse
 
 class Server(models.Model):
     id=models.AutoField(primary_key=True)
-    server_name = models.TextField()
+    server_name = models.CharField(max_length=255)
+    server_description = models.TextField()
+    deleted_at=models.DateTimeField(null=True, blank=True)
     date = models.DateTimeField(
        default=timezone.now)
 
@@ -41,7 +43,6 @@ class Cpu(models.Model):
     id=models.AutoField(primary_key=True)
     percent = models.FloatField()
     server_id=models.ForeignKey(Server)
-
     date = models.DateTimeField(
            default=timezone.now)
 
@@ -61,7 +62,6 @@ class Disk(models.Model):
     free = models.IntegerField()
     percent = models.FloatField()
     server_id=models.ForeignKey(Server)
-
     date = models.DateTimeField(
            default=timezone.now)
 
