@@ -62,46 +62,46 @@ def detail(request):
         return redirect('server')
 
 
-def cpu_detail(request,pk):
+def cpu_chart(request,pk):
     json_serializer=serializers.get_serializer("json")()
 
     cpus = json_serializer.serialize(Cpu.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
     cpuExists=Cpu.objects.all().filter(server_id=pk).exists()
 
     if cpuExists:
-        return render(request, 'monitor/cpu_detail.html', {
+        return render(request, 'monitor/cpu_chart.html', {
         'cpuValues': cpus,
         })
     else:
         return redirect('howtosetup')
 
-def disk_detail(request,pk):
+def disk_chart(request,pk):
     json_serializer=serializers.get_serializer("json")()
 
     disks = json_serializer.serialize(Disk.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
     diskExists=Disk.objects.all().filter(server_id=pk).exists()
 
     if diskExists:
-        return render(request, 'monitor/disk_detail.html', {
+        return render(request, 'monitor/disk_chart.html', {
         'diskValues': disks,
         })
     else:
         return redirect('howtosetup')
 
-def ram_detail(request,pk):
+def ram_chart(request,pk):
     json_serializer=serializers.get_serializer("json")()
 
     rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
     ramExists=Ram.objects.all().filter(server_id=pk).exists()
 
     if ramExists:
-        return render(request, 'monitor/ram_detail.html', {
+        return render(request, 'monitor/ram_chart.html', {
         'ramValues': rams,
         })
     else:
         return redirect('howtosetup')
 
-def server_detail(request,pk):
+def chart(request,pk):
     json_serializer = serializers.get_serializer("json")()
 
     '''
@@ -124,7 +124,7 @@ def server_detail(request,pk):
 
     # if expected data is exists, go to the how to setup.
     if ramExists and cpuExists and diskExists:
-        return render(request, 'monitor/server_detail.html', {
+        return render(request, 'monitor/chart.html', {
         'ramValues': rams,
         'diskValues':disks,
         'cpuValues':cpus
