@@ -13,6 +13,35 @@
   <div class="col-lg-12">
     <div class="panel panel-default">
         <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Ram Used-Free Bar Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="ramBarChart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-12 -->
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Ram Used-Free Donut Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="ramDonutChart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-12 -->
+
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
             <i class="fa fa-bar-chart-o fa-fw"></i> Ram Percent Line Chart
         </div>
         <!-- /.panel-heading -->
@@ -39,7 +68,8 @@
 
   // create empty dicts for charts
   var ramValuesforLineChart=[]
-
+  var ramValuesforDonutChart=[]
+  var ramValuesforBarChart=[]
 
   // update dicts for charts
   for (var i = 0; i < ramValuesJson.length; i++) {
@@ -50,7 +80,23 @@
       hour: sliced,
       ramPercent: ramValuesJson[i].fields.percent,
     });
+    ramValuesforBarChart.push({
+      hour: sliced,
+      ramUsed: ramValuesJson[i].fields.used,
+      ramFree: ramValuesJson[i].fields.free
+    });
   }
+
+  ramValuesforDonutChart.push(
+    {
+      label: "Used",
+      value: ramValuesJson[ramValuesJson.length-1].fields.used,
+    },
+    {
+      label: "Free",
+      value: ramValuesJson[ramValuesJson.length-1].fields.free,
+    });
+
 
   // total is show 28
   new Morris.Line({
@@ -70,6 +116,25 @@
     parseTime: false
   });
 
+  new Morris.Donut({
+    element: 'ramDonutChart',
+
+    data:ramValuesforDonutChart,
+
+    resize:true
+  });
+
+  new Morris.Bar({
+    element: 'ramBarChart',
+
+    data: ramValuesforBarChart,
+
+    xkey: 'hour',
+    ykeys: ['ramUsed', 'ramFree'],
+    labels: ['Used', 'Free'],
+    hideHover: 'auto',
+    resize: true
+  });
 </script>
 <!-- /.text/javascript -->
 

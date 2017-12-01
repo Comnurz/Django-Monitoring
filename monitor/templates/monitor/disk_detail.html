@@ -13,11 +13,39 @@
   <div class="col-lg-12">
     <div class="panel panel-default">
         <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Used-Free Bar Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="diskBarChart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-12 -->
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Used-Free Donut Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="diskDonutChart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-12 -->
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
             <i class="fa fa-bar-chart-o fa-fw"></i> Disk Percent Line Chart
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
-            <div id="diskchart"></div>
+            <div id="diskLineChart"></div>
         </div>
         <!-- /.panel-body -->
     </div>
@@ -38,26 +66,43 @@
   var diskValuesJson=JSON.parse("{{diskValues|escapejs}}")
 
   // create empty dicts for charts
-  var diskValuesforCharts=[]
+  var diskValuesforLineChart=[]
+  var diskValuesforDonutChart=[]
+  var diskValuesforBarChart=[]
 
   // update dicts for charts
   for (var i = 0; i < diskValuesJson.length; i++) {
     var date=diskValuesJson[i].fields.date;
     var sliced=date.slice(-13,-8)
 
-    diskValuesforCharts.push({
+    diskValuesforLineChart.push({
       hour: sliced,
       diskPercent: diskValuesJson[i].fields.percent,
     });
+    diskValuesforBarChart.push({
+      hour: sliced,
+      diskUsed: diskValuesJson[i].fields.used,
+      diskFree: diskValuesJson[i].fields.free
+    });
   }
+
+  diskValuesforDonutChart.push(
+    {
+      label: "Used",
+      value: diskValuesJson[diskValuesJson.length-1].fields.used,
+    },
+    {
+      label: "Free",
+      value: diskValuesJson[diskValuesJson.length-1].fields.free,
+    });
 
   // total is show 28
   new Morris.Line({
     // ID of the element in which to draw the chart.
-    element: 'diskchart',
+    element: 'diskLineChart',
 
     // Chart data records -- each entry in this array corresponds to a point on the chart.
-    data: diskValuesforCharts,
+    data: diskValuesforLineChart,
     // The name of the data record attribute that contains x-values.
     xkey: 'hour',
     // A list of names of data record attributes that contain y-values.
@@ -68,6 +113,27 @@
     hideHover:'auto',
     parseTime: false
   });
+
+  new Morris.Donut({
+    element: 'diskDonutChart',
+
+    data: diskValuesforDonutChart,
+
+    resize: true
+  });
+
+  new Morris.Bar({
+    element: 'diskBarChart',
+
+    data: diskValuesforBarChart,
+
+    xkey: 'hour',
+    ykeys: ['diskUsed', 'diskFree'],
+    labels: ['Used', 'Free'],
+    hideHover: 'auto',
+    resize: true
+  });
+
 </script>
 <!-- /.text/javascript -->
 
