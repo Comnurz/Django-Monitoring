@@ -105,16 +105,16 @@
                                     <a href="#"></i> {{ server.server_name|title }}<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                       <li>
-                                        <a href="{% url 'ram_detail' pk=server.id %}"><i class="glyphicon glyphicon-hdd"></i> RAM</a>
+                                        <a href="{% url 'ram_chart' pk=server.id %}"><i class="glyphicon glyphicon-hdd"></i> RAM</a>
                                       </li>
                                       <li>
-                                        <a href="{% url 'cpu_detail' pk=server.id %}"><i class="fa fa-square"></i> CPU</a>
+                                        <a href="{% url 'cpu_chart' pk=server.id %}"><i class="fa fa-square"></i> CPU</a>
                                       </li>
                                       <li>
-                                        <a href="{% url 'disk_detail' pk=server.id %}"><i class="glyphicon glyphicon-floppy-disk"></i> DİSK</a>
+                                        <a href="{% url 'disk_chart' pk=server.id %}"><i class="glyphicon glyphicon-floppy-disk"></i> DİSK</a>
                                       </li>
                                       <li>
-                                        <a href="{% url 'server_detail' pk=server.id %}"><i class="fa fa-bar-chart-o"></i> All Charts</a>
+                                        <a href="{% url 'chart' pk=server.id %}"><i class="fa fa-bar-chart-o"></i> All Charts</a>
                                       </li>
                                     </ul>
                                     <!-- /.nav-third-level -->
