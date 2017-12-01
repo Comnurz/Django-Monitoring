@@ -88,39 +88,49 @@
                         </li>
                         {% if user.is_authenticated %}
                         <li>
-                            <a href="#"><i class="fa fa-th-list fa-fw"></i> Server List<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                              {% for server in servers %}
-                                <li>
-                                  <a href="#"><i class="fa fa-server fa-fw"></i> {{ server.server_name }}<span class="fa arrow"></span></a>
-                                  <ul class="nav nav-third-level">
-                                    <li>
-                                      <a href="{% url 'ram_detail' pk=server.id %}"><i class="glyphicon glyphicon-hdd"></i> RAM</a>
-                                    </li>
-                                    <li>
-                                      <a href="{% url 'cpu_detail' pk=server.id %}"><i class="fa fa-square"></i> CPU</a>
-                                    </li>
-                                    <li>
-                                      <a href="{% url 'disk_detail' pk=server.id %}"><i class="glyphicon glyphicon-floppy-disk"></i> DİSK</a>
-                                    </li>
-                                    <li>
-                                      <a href="{% url 'server_detail' pk=server.id %}"><i class="fa fa-bar-chart-o"></i> All Charts</a>
-                                    </li>
-                                  </ul>
-                                  <!-- /.nav-third-level -->
-                                </li>
-                              {% endfor %}
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-
-                        <li>
-                            <a href="/server"><i class="fa fa-edit fa-fw"></i> Create Server</a>
+                          <a href="/server"><i class="fa fa-edit fa-fw"></i> Create Server</a>
                         </li>
                         <li>
                           <a href="/howtosetup"><i class="fa fa-wrench fa-fw"></i> How to Setup</a>
                         </li>
+                        {% if servers != "is null"%}
+                        <li>
+                            <a href="#"><i class="fa fa-th-list fa-fw"></i> Server List<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <!-- <li>
+                                    <a href="/server"><i class="fa fa-edit fa-fw"></i> Please Create Server</a>
+                                </li> -->
+                                {% for server in servers %}
+                                  <li>
+                                    <a href="#"></i> {{ server.server_name|title }}<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                      <li>
+                                        <a href="{% url 'ram_detail' pk=server.id %}"><i class="glyphicon glyphicon-hdd"></i> RAM</a>
+                                      </li>
+                                      <li>
+                                        <a href="{% url 'cpu_detail' pk=server.id %}"><i class="fa fa-square"></i> CPU</a>
+                                      </li>
+                                      <li>
+                                        <a href="{% url 'disk_detail' pk=server.id %}"><i class="glyphicon glyphicon-floppy-disk"></i> DİSK</a>
+                                      </li>
+                                      <li>
+                                        <a href="{% url 'server_detail' pk=server.id %}"><i class="fa fa-bar-chart-o"></i> All Charts</a>
+                                      </li>
+                                    </ul>
+                                    <!-- /.nav-third-level -->
+                                  </li>
+                                {% endfor %}
+                                <!-- endfor server in servers  -->
+                                {% else %}
+                                <!-- else servers == "is null" -->
+                                <li>Your server list is empty please create a server</li>
+                              {% endif %}
+                              <!-- endif servers == "is null" -->
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
                         {% else %}
+                        <!-- else user.is_authenticated -->
                         <li>
                           <a href="/login"><i class="fa fa-sign-in fa-fw"></i> Singin</a>
                         </li>
@@ -128,6 +138,7 @@
                           <a href="/signup"><i class="fa fa-arrow-circle-up fa-fw"></i> Singup</a>
                         </li>
                         {% endif %}
+                        <!-- endif user.is_authenticated -->
                     </ul>
                     <!-- /.nav -->
                 </div>
