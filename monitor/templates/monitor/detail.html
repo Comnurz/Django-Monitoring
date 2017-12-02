@@ -1,9 +1,31 @@
 {% extends 'monitor/base.html' %}
 
 {% block content %}
+<h1></h1>
+<div class="row">
 	{% for server in servers %}
-	    <div>
-	        <h1><a href="{% url 'chart' pk=server.id %}">{{ server.server_name }}</a></h1>
-	    </div>
+			<div class="col-lg-3">
+					<div class="panel panel-default">
+							<div class="panel-heading">
+									<strong>{{server.server_name}}</strong>
+							</div>
+							<div class="panel-body">
+								<p style="word-break: break-all;">
+									{% if server.server_description %}
+										{{server.server_description}}
+									{% else %}
+										<small>	No Desciription </small>
+									{% endif %}
+								</p>
+							</div>
+							<div class="panel-footer">
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'disk_chart' pk=server.id %}'">Disk</button>
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'ram_chart' pk=server.id %}'">Ram</button>
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'cpu_chart' pk=server.id %}'">Cpu</button>
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'chart' pk=server.id %}'">All Charts</button>
+							</div>
+					</div>
+			</div>
 	{% endfor %}
+</div>
 {% endblock content %}

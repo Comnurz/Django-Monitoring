@@ -16,7 +16,8 @@ class SignUpForm(UserCreationForm):
 
 class ServerForm(forms.ModelForm):
     server_name = forms.CharField(max_length=150, required=True)
+    server_description=forms.CharField(required=False)
 
     class Meta:
         model = Server
-        fields=('server_name',)
+        fields=('server_name','server_description')

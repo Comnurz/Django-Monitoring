@@ -151,7 +151,7 @@ def server(request):
                 for i in range(len(server)):
                     servers=Server.objects.get(id=server[i])
                     if servers.server_name==server_name:
-                        return render(request,'registration/server.html',{'message':"Aynı isimde server Oluşturamazsın",'form':form})
+                        return render(request,'registration/server.html',{'message':"You cant create server with same name.",'form':form})
                 server=form.save()
 
                 serverobj=Server.objects.get(id=server.id)
