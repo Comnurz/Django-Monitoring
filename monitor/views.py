@@ -48,6 +48,29 @@ def diskSave(detail,server):
     disk.save()
 
 # Create your views here.
+def server_detail(request,pk):
+    current_user=request.user
+
+    server_userobj=Server_User.objects.filter(user_id=current_user.id).exists() #check server user pairing
+    if server_userobj:
+        server=Server.objects.get(id=pk) #get server
+        try:
+            ramValues=Ram.objects.filter(server_id=pk)
+            cpuValues=Cpu.objects.filter(server_id=pk)
+            diskValues=Disk.objects.filter(server_id=pk)
+        except:
+            ramValues=None
+            cpuValues=None
+            diskValues=None
+        return render(request, 'monitor/server_detail.html', {
+            'server': server,
+            'ram': ramValues,
+            'cpu': cpuValues,
+            'disk': diskValues
+        })
+    else:
+        return redirect('server')
+
 def detail(request):
     current_user=request.user
 

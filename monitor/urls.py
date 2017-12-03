@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^server/$',views.server,name='server'),
 
     # Detail pages
+    url(r'^serverdetail/(?P<pk>[0-9]+)/$', views.server_detail, name='server_detail'),
     url(r'^ramchart/(?P<pk>[0-9]+)/$', views.ram_chart, name='ram_chart'),
     url(r'^cpuchart/(?P<pk>[0-9]+)/$', views.cpu_chart, name='cpu_chart'),
     url(r'^diskchart/(?P<pk>[0-9]+)/$', views.disk_chart, name='disk_chart'),

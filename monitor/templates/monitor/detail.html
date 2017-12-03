@@ -6,13 +6,20 @@
 	{% for server in servers %}
 			<div class="col-lg-3">
 					<div class="panel panel-default">
-							<div class="panel-heading">
+							<div class="panel-heading" style="height:45px">
+								<a href="{% url 'server_detail' pk=server.id %}">
 									<strong>{{server.server_name}}</strong>
+								</a>
+								<button type="button" class="btn btn-danger btn-circle pull-right" ><i class="fa fa-times"></i>
+								</button>
+								<button type="button" class="btn btn-primary btn-circle pull-right" style="margin-right:5px;"><i class="fa fa-list"></i>
+								</button>
+
 							</div>
-							<div class="panel-body">
+							<div class="panel-body" style="height:90px;">
 								<p style="word-break: break-all;">
 									{% if server.server_description %}
-										{{server.server_description}}
+										{{server.server_description|truncatechars:80}}
 									{% else %}
 										<small>	No Desciription </small>
 									{% endif %}

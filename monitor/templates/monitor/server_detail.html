@@ -1,0 +1,68 @@
+{% extends 'monitor/base.html' %}
+
+{% block content %}
+<h1></h1>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          {{server.server_name}}
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#server" data-toggle="tab">Server Information</a>
+                </li>
+                <li><a href="#ram" data-toggle="tab">Ram Information</a>
+                </li>
+                <li><a href="#cpu" data-toggle="tab">Disk Information</a>
+                </li>
+                <li><a href="#disk" data-toggle="tab">CPU Information</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="server">
+                    <h4>This server created at:<small> {{server.date}}</small></h4>
+                    <p>
+                      {{server.server_description}}
+                    </p>
+                </div>
+                <div class="tab-pane fade" id="ram">
+                  {% if ram %}
+                    <h4>Total ram values: <small>{{ram|length}}</small></h4>
+                  {% else %}
+                    <p class="lead text-center">
+                      There is no data. You can setup your server <a href="{% url 'howtosetup' %}">here!</a>
+                    </p>
+                  {% endif %}
+                </div>
+                <div class="tab-pane fade" id="cpu">
+                  {% if cpu %}
+                    <h4>Total cpu values: <small>{{cpu|length}}</small></h4>
+                  {% else %}
+                    <p class="lead text-center">
+                      There is no data. You can setup your server <a href="{% url 'howtosetup' %}">here!</a>
+                    </p>
+                  {% endif %}
+                </div>
+                <div class="tab-pane fade" id="disk">
+                  {% if disk %}
+                    <h4>Total disk values: <small>{{disk|length}}</small></h4>
+                  {% else %}
+                    <p class="lead text-center">
+                      There is no data. You can setup your server <a href="{% url 'howtosetup' %}">here!</a>
+                    </p>
+                  {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+</div>
+<!-- /.col-lg-6 -->
+</div>
+{% endblock content %}
