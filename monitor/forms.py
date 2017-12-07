@@ -21,3 +21,12 @@ class ServerForm(forms.ModelForm):
     class Meta:
         model = Server
         fields=('server_name','server_description')
+
+class ServerUpdateForm(forms.ModelForm):
+    server_name = forms.CharField(max_length=150, required=False)
+    server_description=forms.CharField(required=False)
+    server_id=forms.IntegerField()
+
+    class Meta:
+        model = Server
+        fields=('server_name','server_description','server_id')
