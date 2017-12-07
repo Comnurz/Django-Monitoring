@@ -7,15 +7,17 @@ from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from monitor.forms import SignUpForm, ServerForm
+from monitor.forms import SignUpForm, ServerForm, ServerUpdateForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-
+from django.utils import timezone
 from django.core import serializers
 
 from monitor.models import Ram,Cpu,Disk,Server,Server_User
 from django.contrib.auth.models import User
 from passlib.hash import pbkdf2_sha256
+
+from django.views.generic import UpdateView
 
 @api_view(['POST','OPTIONS'])
 def dbSave(request):
@@ -36,6 +38,7 @@ def ramSave(detail,server):
     server=Server.objects.get(id=server) #get Server objects which id=server
     ram=Ram(total=detail[0],used=detail[1],free=detail[2],percent=float(detail[3]),sin=detail[4],sout=detail[5],server_id=server)#save data to ram
     ram.save()
+
 
 def cpuSave(detail,server):
     server=Server.objects.get(id=server)#get Server objects which id=server
@@ -74,16 +77,38 @@ def server_detail(request,pk):
 def detail(request):
     current_user=request.user
 
-    server_userobj=Server_User.objects.filter(user_id=current_user.id).exists() #check server user pairing
-    if server_userobj:
-        servers=[]
-        server=Server_User.objects.filter(user_id=current_user.id).values_list('server_id',flat=True)
-        for i in range(len(server)):
-            servers.append(Server.objects.get(id=server[i]))
-        return render(request, 'monitor/detail.html', {'servers': servers})
-    else:
-        return redirect('server')
+    if request.method== 'POST':
+        form=ServerUpdateForm(request.POST)
+        if form.is_valid():
+            server_name=form.cleaned_data.get('server_name')
+            server_id=form.cleaned_data.get('server_id')
+            server_description=form.cleaned_data.get('server_description')
 
+            server_userobj=Server_User.objects.filter(user_id=current_user.id,server_id=server_id).exists() #check server user pairing
+            if server_userobj:
+                server=Server.objects.filter(id=server_id).update(server_name=server_name,server_description=server_description) #Server Update
+            else:
+                pass
+
+            return redirect('detail')
+    else:
+        form=ServerUpdateForm()
+
+    servers=[]
+    server=Server_User.objects.filter(user_id=current_user.id).values_list('server_id',flat=True)
+    for i in range(len(server)):
+        servers.append(Server.objects.get(id=server[i]))
+
+    return render(request,'monitor/detail.html',{'form':form, 'servers':servers})
+
+def deleteServer(request,pk):
+    current_user=request.user
+
+    server_userobj=Server_User.objects.filter(user_id=current_user.id,server_id=pk).exists() #check server user pairing
+    if server_userobj:
+        server=Server.objects.filter(id=pk).update(deleted_at=timezone.now()) #Update Server
+
+    return redirect('detail')
 
 def cpu_chart(request,pk):
     json_serializer=serializers.get_serializer("json")()
@@ -187,7 +212,6 @@ def server(request):
         return render(request,'registration/server.html',{'form':form})
     else:
         return redirect('login')
-
 # Singup Controller
 def signup(request):
     if request.method == 'POST':

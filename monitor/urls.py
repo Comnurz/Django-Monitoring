@@ -24,4 +24,6 @@ urlpatterns = [
 
     # For Development
     url(r'^user$',views.checkUser,name='checkUser'),
+    url(r'^delete/(?P<pk>[0-9]+)/$',views.deleteServer,name='deleteServer'),
+
 ]
