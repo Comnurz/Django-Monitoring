@@ -54,9 +54,23 @@ def diskSave(detail,server):
 def server_detail(request,pk):
     current_user=request.user
 
-    server_userobj=Server_User.objects.filter(user_id=current_user.id).exists() #check server user pairing
+    server_userobj=Server_User.objects.filter(user_id=current_user.id,server_id=pk).exists() #check server user pairing
     if server_userobj:
         server=Server.objects.get(id=pk) #get server
+        if request.method == 'POST':
+            form=ServerUpdateForm(request.POST)
+            if form.is_valid():
+                # Get form data
+                server_name=form.cleaned_data.get('server_name')
+                server_id=form.cleaned_data.get('server_id')
+                server_description=form.cleaned_data.get('server_description')
+
+                server=Server.objects.filter(id=server_id).update(server_name=server_name,server_description=server_description) #Server Update
+
+                return redirect('server_detail', pk=server_id)
+        else:
+            form=ServerUpdateForm()
+
         try:
             ramValues=Ram.objects.filter(server_id=pk)
             cpuValues=Cpu.objects.filter(server_id=pk)
@@ -69,10 +83,12 @@ def server_detail(request,pk):
             'server': server,
             'ram': ramValues,
             'cpu': cpuValues,
-            'disk': diskValues
+            'disk': diskValues,
+            'form': form
         })
     else:
         return redirect('server')
+        # Create Ups! page for here.
 
 def detail(request):
     current_user=request.user
@@ -80,6 +96,7 @@ def detail(request):
     if request.method== 'POST':
         form=ServerUpdateForm(request.POST)
         if form.is_valid():
+            # Get form data
             server_name=form.cleaned_data.get('server_name')
             server_id=form.cleaned_data.get('server_id')
             server_description=form.cleaned_data.get('server_description')
