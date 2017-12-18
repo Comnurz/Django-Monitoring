@@ -12,6 +12,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.core import serializers
+from django.core.mail import send_mail
 
 from monitor.models import Ram,Cpu,Disk,Server,Server_User
 from django.contrib.auth.models import User
@@ -36,21 +37,53 @@ def dbSave(request):
 
 def ramSave(detail,server):
     server=Server.objects.get(id=server) #get Server objects which id=server
+    lastRamValue=Ram.objects.filter(server_id=server).last()
+
+    if int(detail[1])>2*(lastRamValue.used):
+        serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
+        user=User.objects.get(id=serverUser)
+        sendMail(user.email)
     ram=Ram(total=detail[0],used=detail[1],free=detail[2],percent=float(detail[3]),sin=detail[4],sout=detail[5],server_id=server)#save data to ram
     ram.save()
 
 
 def cpuSave(detail,server):
     server=Server.objects.get(id=server)#get Server objects which id=server
+    lastCpuValue=Cpu.objects.filter(server_id=server).last()
+
+    if int(detail[1])>2*(lastCpuValue.percent):
+        serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
+        user=User.objects.get(id=serverUser)
+        sendMail(user.email)
+
     cpu=Cpu(percent=float(detail[0]),server_id=server)  #save data to cpu
     cpu.save()
 
 def diskSave(detail,server):
     server=Server.objects.get(id=server)#get Server objects which id=server
+    lastDiskValue=Disk.objects.filter(server_id=server).last()
+
+    if int(detail[1])>2*(lastDiskValue.used):
+        serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
+        user=User.objects.get(id=serverUser)
+        sendMail(user.email)
+
     disk=Disk(total=detail[0],used=detail[1],free=detail[2],percent=float(detail[3]),server_id=server)#save data to disk
     disk.save()
 
+def sendMail(email):
+    send_mail("Information", "Subject", "slbandidas@gmail.com", [email], fail_silently=True)
+
 # Create your views here.
+def howtosetup(request):
+    return render(request,'monitor/howtosetup.html')
+
+def index(request):
+    return render(request,'monitor/index.html')
+
+def dashboard(request):
+    return render(request,'monitor/dashboard.html')
+
 def server_detail(request,pk):
     current_user=request.user
 
@@ -197,12 +230,6 @@ def chart(request,pk):
     else:
         return redirect('howtosetup')
 
-def howtosetup(request):
-    return render(request,'monitor/howtosetup.html')
-
-def index(request):
-        return render(request,'monitor/index.html')
-
 
 # Create Server
 def server(request):
@@ -247,8 +274,7 @@ def signup(request):
 # Pairing server and user from create server page
 def serverUser(serverobj,userobj):
     server_user=Server_User()
-    su=server_user.save()
-    print(userobj)
+    su=server_user.save() #Create empty Server_User object for relationship.
     server_user.user_id.add(userobj)
     server_user.server_id.add(serverobj)
     server_user.save()
