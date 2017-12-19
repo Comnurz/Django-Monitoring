@@ -39,7 +39,7 @@ def ramSave(detail,server):
     server=Server.objects.get(id=server) #get Server objects which id=server
     lastRamValue=Ram.objects.filter(server_id=server).last()
 
-    if int(detail[1])>2*(lastRamValue.used):
+    if int(detail[1])>2*(lastRamValue.used) or float(detail[3]>90.0):
         serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
         user=User.objects.get(id=serverUser)
         sendMail(user.email)
@@ -51,7 +51,7 @@ def cpuSave(detail,server):
     server=Server.objects.get(id=server)#get Server objects which id=server
     lastCpuValue=Cpu.objects.filter(server_id=server).last()
 
-    if int(detail[1])>2*(lastCpuValue.percent):
+    if int(detail[1])>2*(lastCpuValue.percent) or float(detail[0])>90.0:
         serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
         user=User.objects.get(id=serverUser)
         sendMail(user.email)
@@ -63,7 +63,7 @@ def diskSave(detail,server):
     server=Server.objects.get(id=server)#get Server objects which id=server
     lastDiskValue=Disk.objects.filter(server_id=server).last()
 
-    if int(detail[1])>2*(lastDiskValue.used):
+    if int(detail[1])>2*(lastDiskValue.used) or float(detail[3])>90.0:
         serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
         user=User.objects.get(id=serverUser)
         sendMail(user.email)
@@ -160,49 +160,8 @@ def deleteServer(request,pk):
 
     return redirect('detail')
 
-def cpu_chart(request,pk):
-    json_serializer=serializers.get_serializer("json")()
-
-    cpus = json_serializer.serialize(Cpu.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
-    cpuExists=Cpu.objects.all().filter(server_id=pk).exists()
-
-    if cpuExists:
-        return render(request, 'monitor/cpu_chart.html', {
-        'cpuValues': cpus,
-        })
-    else:
-        return redirect('howtosetup')
-
-def disk_chart(request,pk):
-    json_serializer=serializers.get_serializer("json")()
-
-    disks = json_serializer.serialize(Disk.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
-    diskExists=Disk.objects.all().filter(server_id=pk).exists()
-
-    if diskExists:
-        return render(request, 'monitor/disk_chart.html', {
-        'diskValues': disks,
-        })
-    else:
-        return redirect('howtosetup')
-
-def ram_chart(request,pk):
-    json_serializer=serializers.get_serializer("json")()
-
-    rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
-    ramExists=Ram.objects.all().filter(server_id=pk).exists()
-
-    if ramExists:
-        return render(request, 'monitor/ram_chart.html', {
-        'ramValues': rams,
-        })
-    else:
-        return redirect('howtosetup')
-
-def chart(request,pk):
-    json_serializer = serializers.get_serializer("json")()
-
-    '''
+# get Values from database.
+'''
     mysql command is : "select * from Ram where server_id=pk orderby id desc 28"
     or this command be like this:
     ramValues=Ram.objects.all() --> get all ram objects
@@ -210,22 +169,76 @@ def chart(request,pk):
     orderedRamValues=filteredRamValues.order_by('-id')[:28] --> get ramValues last 28 item
     reversedRamValues=reversed(orderedRamValues) --> this command is reversed ramValues
     rams=json_serializer.serialize(reversedRamValues) --> get json from ramValues
-    '''
-    rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
-    ramExists=Ram.objects.all().filter(server_id=pk).exists()
+'''
+def cpu_values(pk):
+    json_serializer=serializers.get_serializer("json")()
 
     cpus = json_serializer.serialize(Cpu.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
     cpuExists=Cpu.objects.all().filter(server_id=pk).exists()
+    if cpuExists:
+        return cpus
+    else:
+        return cpuExists
+
+def ram_values(pk):
+    json_serializer=serializers.get_serializer("json")()
+
+    rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
+    ramExists=Ram.objects.all().filter(server_id=pk).exists()
+    if ramExists:
+        return rams
+    else:
+        return ramExists
+
+def disk_values(pk):
+    json_serializer=serializers.get_serializer("json")()
 
     disks = json_serializer.serialize(Disk.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1], ensure_ascii=False)
     diskExists=Disk.objects.all().filter(server_id=pk).exists()
+    if diskExists:
+        return disks
+    else:
+        return diskExists
+
+# chart views here.
+def cpu_chart(request,pk):
+    cpuValues=cpu_values(pk)
+    if cpuValue:
+        return render(request, 'monitor/cpu_chart.html', {
+        'cpuValues': cpuValues,
+        })
+    else:
+        return redirect('howtosetup')
+
+def disk_chart(request,pk):
+    diskValues=disk_values(pk)
+    if diskValues:
+        return render(request, 'monitor/disk_chart.html', {
+        'diskValues': diskValues,
+        })
+    else:
+        return redirect('howtosetup')
+
+def ram_chart(request,pk):
+    ramValues=ram_values(pk)
+    if ramValues:
+        return render(request, 'monitor/ram_chart.html', {
+        'ramValues': ramValues,
+        })
+    else:
+        return redirect('howtosetup')
+
+def chart(request,pk):
+    cpuValues=cpu_values(pk)
+    diskValues=disk_values(pk)
+    ramValues=ram_values(pk)
 
     # if expected data is exists, go to the how to setup.
-    if ramExists and cpuExists and diskExists:
+    if ramValues and cpuValues and diskValues:
         return render(request, 'monitor/chart.html', {
-        'ramValues': rams,
-        'diskValues':disks,
-        'cpuValues':cpus
+        'ramValues': ramValues,
+        'diskValues':diskValues,
+        'cpuValues':cpuValues
         })
     else:
         return redirect('howtosetup')
@@ -256,6 +269,7 @@ def server(request):
         return render(request,'registration/server.html',{'form':form})
     else:
         return redirect('login')
+
 # Singup Controller
 def signup(request):
     if request.method == 'POST':
