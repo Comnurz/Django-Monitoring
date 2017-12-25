@@ -1,0 +1,209 @@
+{% extends "example/base.html" %}
+{% load staticfiles %}
+
+
+{% block css %}
+<!-- Morris Charts CSS -->
+<link href="{% static 'bootstrap/vendor/morrisjs/morris.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+<h1></h1>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Cpu Percent Line Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="cpuchart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-12 -->
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Ram Percent Line Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="ramchart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-6 -->
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Percent Line Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="diskchart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-6 -->
+</div>
+<!-- /.row -->
+{% endblock content %}
+
+
+{% block script %}
+<!-- Morris Charts JavaScript -->
+<script src="{% static 'bootstrap/vendor/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'bootstrap/vendor/morrisjs/morris.min.js' %}"></script>
+<script src="{% static 'bootstrap/data/morris-data.js' %}"></script>
+<script type="text/javascript">
+
+  new Morris.Line({
+    // ID of the element in which to draw the chart.
+    element: 'ramchart',
+
+    // Chart data records -- each entry in this array corresponds to a point on the chart.
+    data: [{
+        hour: '20:01',
+        percent: 73.5
+      }, {
+        hour: '20:02',
+        percent: 73.5
+      }, {
+        hour: '20:03',
+        percent: 73.5
+      }, {
+        hour: '20:04',
+        percent: 73.1
+      }, {
+        hour: '20:05',
+        percent: 73.0
+      }, {
+        hour: '20:06',
+        percent: 73.2
+      }, {
+        hour: '20:07',
+        percent: 69.6
+      }, {
+        hour: '20:08',
+        percent: 68.6
+      }, {
+        hour: '20:09',
+        percent: 68.5
+      }, {
+        hour: '20:10',
+        percent: 68.6
+      }],
+    // The name of the data record attribute that contains x-values.
+    xkey: 'hour',
+    // A list of names of data record attributes that contain y-values.
+    ykeys: ['percent'],
+    // Labels for the ykeys -- will be displayed when you hover over the chart.
+    labels: ['Ram Percent'],
+    pointSize:2,
+    hideHover:'auto',
+    parseTime: false
+  });
+
+  new Morris.Line({
+    // ID of the element in which to draw the chart.
+    element: 'cpuchart',
+
+    // Chart data records -- each entry in this array corresponds to a point on the chart.
+    data: [{
+        hour: '20:01',
+        percent: 7.4
+      }, {
+        hour: '20:02',
+        percent: 8.9
+      }, {
+        hour: '20:03',
+        percent: 6.8
+      }, {
+        hour: '20:04',
+        percent: 7
+      }, {
+        hour: '20:05',
+        percent: 7.3
+      }, {
+        hour: '20:06',
+        percent: 7.3
+      }, {
+        hour: '20:07',
+        percent: 11.6
+      }, {
+        hour: '20:08',
+        percent: 2.6
+      }, {
+        hour: '20:09',
+        percent: 4.9
+      }, {
+        hour: '20:10',
+        percent: 6.5
+      }],
+    // The name of the data record attribute that contains x-values.
+    xkey: 'hour',
+    // A list of names of data record attributes that contain y-values.
+    ykeys: ['percent',],
+    // Labels for the ykeys -- will be displayed when you hover over the chart.
+    labels: ['Cpu Percent'],
+    pointSize:2,
+    hideHover:'auto',
+    parseTime: false
+  });
+  new Morris.Line({
+    // ID of the element in which to draw the chart.
+    element: 'diskchart',
+
+    // Chart data records -- each entry in this array corresponds to a point on the chart.
+    data: [{
+        hour: '20:01',
+        percent: 90.9
+      }, {
+        hour: '20:02',
+        percent: 90.2
+      }, {
+        hour: '20:03',
+        percent: 90.2
+      }, {
+        hour: '20:04',
+        percent: 90.2
+      }, {
+        hour: '20:05',
+        percent: 90.2
+      }, {
+        hour: '20:06',
+        percent: 90.2
+      }, {
+        hour: '20:07',
+        percent: 90.2
+      }, {
+        hour: '20:08',
+        percent: 90.2
+      }, {
+        hour: '20:09',
+        percent: 90.2
+      }, {
+        hour: '20:10',
+        percent: 90.2
+      }],
+    // The name of the data record attribute that contains x-values.
+    xkey: 'hour',
+    // A list of names of data record attributes that contain y-values.
+    ykeys: ['percent'],
+    // Labels for the ykeys -- will be displayed when you hover over the chart.
+    labels: ['Disk Percent'],
+    pointSize:2,
+    hideHover:'auto',
+    parseTime: false
+  });
+</script>
+<!-- /.text/javascript -->
+
+{% endblock script %}

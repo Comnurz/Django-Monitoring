@@ -25,6 +25,7 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'bootstrap/css/creative.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/stylish-portfolio.min.css' %}" rel="stylesheet">
 
   </head>
 
@@ -51,35 +52,29 @@
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
             </li>
-            <li class="nav-item">
-              <ul class="nav navbar-top-links navbar-right">
-                  <li class="dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="text-decoration:none; color:#495057;">
-                          <i class="fa fa-user fa-fw"></i>
-                      </a>
-                      <ul class="dropdown-menu dropdown-user">
-                        {% if user.is_authenticated %}
-                            <li><a href="/dashboard" style="color:#495057;"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
-                            </li>
-                            <li><a href="/detail" style="color:#495057;"><i class="fa fa-th-list fa-fw"></i> Server List</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a href="/logout" style="color:#495057;"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                            </li>
-                        {% else %}
-                            <li><a href="/login" style="color:#495057;"><i class="fa fa-sign-in fa-fw"></i> Signin</a>
-                            </li>
-                            <li><a href="/signup" style="color:#495057;"><i class="fa fa-arrow-circle-up fa-fw"></i> Signup</a>
-                            </li>
-                        {% endif %}
-                      </ul>
-                      <!-- /.dropdown-user -->
-                  </li>
-                  <!-- /.dropdown -->
+            <li class="nav-item dropdown" style="margin-top:5px;">
+                <a class="nav-link" data-toggle="dropdown" href="#" style="text-decoration:none;">
+                    <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                  {% if user.is_authenticated %}
+                      <li><a href="/dashboard" style="color:#495057;"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
+                      </li>
+                      <li><a href="/detail" style="color:#495057;"><i class="fa fa-th-list fa-fw"></i> Server List</a>
+                      </li>
+                      <li class="divider"></li>
+                      <li><a href="/logout" style="color:#495057;"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                      </li>
+                  {% else %}
+                      <li><a href="/login" style="color:#495057;"><i class="fa fa-sign-in fa-fw"></i> Signin</a>
+                      </li>
+                      <li><a href="/signup" style="color:#495057;"><i class="fa fa-arrow-circle-up fa-fw"></i> Signup</a>
+                      </li>
+                  {% endif %}
               </ul>
-              <!-- /.navbar-top-links -->
+              <!-- /.dropdown-user -->
             </li>
-            <!-- /.nav-item -->
+            <!-- /.dropdown -->
           </ul>
           <!-- /.ml-auto -->
         </div>
@@ -106,14 +101,14 @@
       </div>
     </header>
 
-    <section class="bg-primary" id="about">
+    <section class="bg-primary" id="about" >
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
             <h2 class="section-heading text-white">We've got what you need!</h2>
             <hr class="light my-4">
             <p class="text-faded mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </p>
             <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>
           </div>
@@ -136,134 +131,94 @@
             <div class="service-box mt-5 mx-auto">
               <i class="fa fa-4x fa-diamond text-primary mb-3 sr-icons"></i>
               <h3 class="mb-3">Sturdy Templates</h3>
-              <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
               <i class="fa fa-4x fa-paper-plane text-primary mb-3 sr-icons"></i>
               <h3 class="mb-3">Ready to Use</h3>
-              <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <p class="text-muted mb-0">Just click next next next and install <i class="fa fa-smile-o"></i></p>
             </div>
           </div>
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
               <i class="fa fa-4x fa-newspaper-o text-primary mb-3 sr-icons"></i>
               <h3 class="mb-3">Up to Date</h3>
-              <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <p class="text-muted mb-0">Server informations update per minute.</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
               <i class="fa fa-4x fa-heart text-primary mb-3 sr-icons"></i>
               <h3 class="mb-3">Made with Love</h3>
-              <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
             </div>
           </div>
         </div>
+        <!-- ./row -->
       </div>
+      <!-- ./container -->
     </section>
     <!-- /.id=servides -->
 
-    <section class="p-0" id="portfolio">
-      <div class="container-fluid p-0">
-        <div class="row no-gutters popup-gallery">
-          <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="{% static 'bootstrap/img/portfolio/fullsize/1.jpg' %}">
-              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/thumbnails/1.jpg' %}" alt="">
-              <div class="portfolio-box-caption">
-                <div class="portfolio-box-caption-content">
-                  <div class="project-category text-faded">
-                    Category
-                  </div>
-                  <div class="project-name">
-                    Project Name
-                  </div>
-                </div>
-              </div>
+    <section class="p-0" id="portfolio" style="margin-bottom:15px;">
+      <div class="container">
+        <div class="content-section-heading text-center">
+          <h3 class="text-secondary mb-0">Portfolio</h3>
+          <h2 class="mb-5">Example Pages</h2>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-lg-6">
+            <a class="portfolio-item" href="/examplechart">
+              <span class="caption">
+                <span class="caption-content">
+                  <h2>Charts</h2>
+                  <p class="mb-0">Multiple charts for your servers. This charts are donut, line and bar chart.</p>
+                </span>
+              </span>
+              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/charts.jpg' %}" alt="">
             </a>
           </div>
-          <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="{% static 'bootstrap/img/portfolio/fullsize/2.jpg' %}">
-              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/thumbnails/2.jpg' %}" alt="">
-              <div class="portfolio-box-caption">
-                <div class="portfolio-box-caption-content">
-                  <div class="project-category text-faded">
-                    Category
-                  </div>
-                  <div class="project-name">
-                    Project Name
-                  </div>
-                </div>
-              </div>
+          <div class="col-lg-6">
+            <a class="portfolio-item" href="/exampleserver">
+              <span class="caption">
+                <span class="caption-content">
+                  <h2>New Server</h2>
+                  <p class="mb-0">Opening a new server has never been easier.</p>
+                </span>
+              </span>
+              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/createserver.jpg' %}" alt="">
             </a>
           </div>
-          <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="{% static 'bootstrap/img/portfolio/fullsize/3.jpg' %}">
-              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/thumbnails/3.jpg' %}" alt="">
-              <div class="portfolio-box-caption">
-                <div class="portfolio-box-caption-content">
-                  <div class="project-category text-faded">
-                    Category
-                  </div>
-                  <div class="project-name">
-                    Project Name
-                  </div>
-                </div>
-              </div>
+          <div class="col-lg-6">
+            <a class="portfolio-item" href="/exampledetail">
+              <span class="caption">
+                <span class="caption-content">
+                  <h2>Show All Servers</h2>
+                  <p class="mb-0">Show all servers in one page and update or delete it easier.</p>
+                </span>
+              </span>
+              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/detail.jpg' %}" alt="">
             </a>
           </div>
-          <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="{% static 'bootstrap/img/portfolio/fullsize/4.jpg' %}">
-              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/thumbnails/4.jpg' %}" alt="">
-              <div class="portfolio-box-caption">
-                <div class="portfolio-box-caption-content">
-                  <div class="project-category text-faded">
-                    Category
-                  </div>
-                  <div class="project-name">
-                    Project Name
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="{% static 'bootstrap/img/portfolio/fullsize/5.jpg' %}">
-              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/thumbnails/5.jpg' %}" alt="">
-              <div class="portfolio-box-caption">
-                <div class="portfolio-box-caption-content">
-                  <div class="project-category text-faded">
-                    Category
-                  </div>
-                  <div class="project-name">
-                    Project Name
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="{% static 'bootstrap/img/portfolio/fullsize/6.jpg' %}">
-              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/thumbnails/6.jpg' %}" alt="">
-              <div class="portfolio-box-caption">
-                <div class="portfolio-box-caption-content">
-                  <div class="project-category text-faded">
-                    Category
-                  </div>
-                  <div class="project-name">
-                    Project Name
-                  </div>
-                </div>
-              </div>
+          <div class="col-lg-6">
+            <a class="portfolio-item" href="/exampleserverdetail">
+              <span class="caption">
+                <span class="caption-content">
+                  <h2>Server Detail</h2>
+                  <p class="mb-0">More than information for your server and update and delete it easier.</p>
+                </span>
+              </span>
+              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/serverdetail.jpg' %}" alt="">
             </a>
           </div>
         </div>
-        <!-- /.popup-gallery -->
+        <!-- /.no-gutters -->
       </div>
-      <!-- /.p-0 -->
+      <!-- ./container -->
     </section>
-    <!-- /.p-0 -->
+    <!-- ./p-0 -->
 
     <section class="bg-dark text-white">
       <div class="container text-center">
@@ -276,10 +231,10 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
-            <h2>We <i class="fa fa-heart"></i> new friends!</h2>
+            <h2>We <i class="fa fa-heart" style="color:red;"></i> new friends!</h2>
               <hr class="my-4">
             <p class="mb-5">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
           </div>
         </div>
@@ -291,7 +246,7 @@
           <div class="col-lg-4 mr-auto text-center">
             <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
             <p>
-              <a href="mailto:your-email@your-domain.com">feedback@monitoring.com</a>
+              <a href="mailto:slbandidas@gmail.com">feedback@monitoring.com</a>
             </p>
           </div>
         </div>
@@ -311,6 +266,7 @@
 
     <!-- Custom scripts for this template -->
     <script src="{% static 'bootstrap/js/creative.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/stylish-portfolio.min.js' %}"></script>
 
   </body>
 

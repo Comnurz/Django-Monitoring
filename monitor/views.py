@@ -75,6 +75,36 @@ def sendMail(email):
     send_mail("Information", "Subject", "slbandidas@gmail.com", [email], fail_silently=True)
 
 # Create your views here.
+def example_server(request):
+    return render(request, 'example/server.html')
+
+def example_howtosetup(request):
+    return render(request, 'example/howtosetup.html')
+
+def example_server2_detail(request):
+    return render(request, 'example/serverdetail2.html')
+
+def example_server_detail(request):
+    return render(request, 'example/serverdetail.html')
+
+def example_detail(request):
+    return render(request,'example/detail.html')
+
+def example_dashboard(request):
+    return render(request,'example/dashboard.html')
+
+def example_chart(request):
+    return render(request,'example/chart.html')
+
+def example_ram_chart(request):
+    return render(request,'example/ramchart.html')
+
+def example_disk_chart(request):
+    return render(request,'example/diskchart.html')
+
+def example_cpu_chart(request):
+    return render(request,'example/cpuchart.html')
+
 def howtosetup(request):
     return render(request,'monitor/howtosetup.html')
 
@@ -203,7 +233,7 @@ def disk_values(pk):
 # chart views here.
 def cpu_chart(request,pk):
     cpuValues=cpu_values(pk)
-    if cpuValue:
+    if cpuValues:
         return render(request, 'monitor/cpu_chart.html', {
         'cpuValues': cpuValues,
         })

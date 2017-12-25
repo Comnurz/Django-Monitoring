@@ -22,6 +22,19 @@ urlpatterns = [
     url(r'^diskchart/(?P<pk>[0-9]+)/$', views.disk_chart, name='disk_chart'),
     url(r'^chart/(?P<pk>[0-9]+)/$', views.chart, name='chart'),
 
+    # Example pages
+    url(r'^exampleramchart/', views.example_ram_chart, name='example_ram_chart'),
+    url(r'^examplecpuchart/', views.example_cpu_chart, name='example_cpu_chart'),
+    url(r'^examplediskchart/', views.example_disk_chart, name='example_disk_chart'),
+    url(r'^examplechart/', views.example_chart, name='example_chart'),
+    url(r'^exampledashboard/', views.example_dashboard, name='example_dashboard'),
+    url(r'^exampledetail/', views.example_detail, name='example_detail'),
+    url(r'^exampleserverdetail/', views.example_server_detail, name='example_server_detail'),
+    url(r'^exampleserver2detail/', views.example_server2_detail, name='example_server2_detail'),
+    url(r'^exampleserver/', views.example_server, name='example_server'),
+    url(r'^examplehowtosetup/', views.example_howtosetup, name='example_howtosetup'),
+
+
     # For Development
     url(r'^dbsave/',views.dbSave, name='dbSave'),
     url(r'^user$',views.checkUser,name='checkUser'),
