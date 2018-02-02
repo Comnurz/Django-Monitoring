@@ -38,11 +38,11 @@ def dbSave(request):
 def ramSave(detail,server):
     server=Server.objects.get(id=server) #get Server objects which id=server
     lastRamValue=Ram.objects.filter(server_id=server).last()
-
-    if int(detail[1])>2*(lastRamValue.used) or float(detail[3]>90.0):
-        serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
-        user=User.objects.get(id=serverUser)
-        sendMail(user.email)
+    if lastRamValue is not None:
+        if int(detail[1])>2*(lastRamValue.used) or float(detail[3]>90.0):
+            serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
+            user=User.objects.get(id=serverUser)
+            sendMail(user.email)
     ram=Ram(total=detail[0],used=detail[1],free=detail[2],percent=float(detail[3]),sin=detail[4],sout=detail[5],server_id=server)#save data to ram
     ram.save()
 
@@ -50,11 +50,11 @@ def ramSave(detail,server):
 def cpuSave(detail,server):
     server=Server.objects.get(id=server)#get Server objects which id=server
     lastCpuValue=Cpu.objects.filter(server_id=server).last()
-
-    if int(detail[1])>2*(lastCpuValue.percent) or float(detail[0])>90.0:
-        serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
-        user=User.objects.get(id=serverUser)
-        sendMail(user.email)
+    if lastCpuValue is not None:
+        if int(detail[1])>2*(lastCpuValue.percent) or float(detail[0])>90.0:
+            serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
+            user=User.objects.get(id=serverUser)
+            sendMail(user.email)
 
     cpu=Cpu(percent=float(detail[0]),server_id=server)  #save data to cpu
     cpu.save()
@@ -62,17 +62,17 @@ def cpuSave(detail,server):
 def diskSave(detail,server):
     server=Server.objects.get(id=server)#get Server objects which id=server
     lastDiskValue=Disk.objects.filter(server_id=server).last()
-
-    if int(detail[1])>2*(lastDiskValue.used) or float(detail[3])>90.0:
-        serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
-        user=User.objects.get(id=serverUser)
-        sendMail(user.email)
+    if lastDiskValue is not None:
+        if int(detail[1])>2*(lastDiskValue.used) or float(detail[3])>90.0:
+            serverUser=Server_User.objects.filter(server_id=server).values_list('user_id',flat=True)
+            user=User.objects.get(id=serverUser)
+            sendMail(user.email)
 
     disk=Disk(total=detail[0],used=detail[1],free=detail[2],percent=float(detail[3]),server_id=server)#save data to disk
     disk.save()
 
 def sendMail(email):
-    send_mail("Information", "Subject", "slbandidas@gmail.com", [email], fail_silently=True)
+    send_mail("Information", "Subject", "yourmailaddress", [email], fail_silently=True)
 
 # Create your views here.
 def example_server(request):
