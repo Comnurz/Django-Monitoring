@@ -4,7 +4,6 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     # Static pages
-    url(r'^$', views.index, name='index'),
     url(r'^detail/$', views.detail, name='detail'),
     url(r'^howtosetup/$', views.howtosetup, name='howtosetup'),
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
@@ -39,5 +38,8 @@ urlpatterns = [
     url(r'^dbsave/',views.dbSave, name='dbSave'),
     url(r'^user$',views.checkUser,name='checkUser'),
     url(r'^delete/(?P<pk>[0-9]+)/$',views.deleteServer,name='deleteServer'),
+    
+    
+    url(r'^$', views.index, name='index'),
 
 ]
