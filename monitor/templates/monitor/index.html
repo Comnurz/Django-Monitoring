@@ -1,47 +1,273 @@
-{% load googlecharts %}
-{# container #}
-<div id="out_ram"></div>
-<div id="out_cpu"></div>
-<div id="out_disk"></div>
-{% googlecharts %}
-	{# named data and options can be reused #}
-	{% data ramValues "out_ram" %}
-		{% col "string" "Name" %}"{{ val }}"{% endcol %}
-		{% col "number" "Value" %}{{ val }}{% endcol %}
-	{% enddata %}
-	{% data cpuValues "out_cpu" %}
-		{% col "string" "Name" %}"{{ val }}"{% endcol %}
-		{% col "number" "Value" %}{{ val }}{% endcol %}
-	{% enddata %}
-	{% data diskValues "out_disk" %}
-		{% col "string" "Name" %}"{{ val }}"{% endcol %}
-		{% col "number" "Value" %}{{ val }}{% endcol %}
-	{% enddata %}
-	{# you can also use global javascript variables here, #}
-	{# and call functions #}
-	{% options "options_ram" %}
-		kind: "PieChart",
-		options: {
-			width: 300,
-			height: 240
-		}
-	{% endoptions %}
-	{% options "options_cpu" %}
-		kind: "PieChart",
-		options: {
-			width: 300,
-			height: 240
-		}
-	{% endoptions %}
-	{% options "options_disk" %}
-		kind: "PieChart",
-		options: {
-			width: 300,
-			height: 240
-		}
-	{% endoptions %}
-	{# chart is assembled from container, data and options #}
-	{% graph "out_ram" "out_ram" "options_ram" %}
-	{% graph "out_cpu" "out_cpu" "options_cpu" %}
-	{% graph "out_disk" "out_disk" "options_disk" %}
-{% endgooglecharts %}
+{% load staticfiles %}
+
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Django Monitoring</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap/vendor/bootstrap/css/bootstrap4.css' %}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="{% static 'bootstrap/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="{% static 'bootstrap/vendor/magnific-popup/magnific-popup.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'bootstrap/css/creative.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/stylish-portfolio.min.css' %}" rel="stylesheet">
+
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Django Monitoring</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+            </li>
+            <li class="nav-item dropdown" style="margin-top:5px;">
+                <a class="nav-link" data-toggle="dropdown" href="#" style="text-decoration:none;">
+                    <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                  {% if user.is_authenticated %}
+                      <li><a href="/dashboard" style="color:#495057;"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
+                      </li>
+                      <li><a href="/detail" style="color:#495057;"><i class="fa fa-th-list fa-fw"></i> Server List</a>
+                      </li>
+                      <li class="divider"></li>
+                      <li><a href="/logout" style="color:#495057;"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                      </li>
+                  {% else %}
+                      <li><a href="/login" style="color:#495057;"><i class="fa fa-sign-in fa-fw"></i> Signin</a>
+                      </li>
+                      <li><a href="/signup" style="color:#495057;"><i class="fa fa-arrow-circle-up fa-fw"></i> Signup</a>
+                      </li>
+                  {% endif %}
+              </ul>
+              <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+          </ul>
+          <!-- /.ml-auto -->
+        </div>
+        <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container -->
+    </nav>
+    <!-- /.fixed-top -->
+
+    <header class="masthead text-center text-white d-flex">
+      <div class="container my-auto">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <h1 class="text-uppercase">
+              <strong>Your Favorite Monitoring Website</strong>
+            </h1>
+            <hr>
+          </div>
+          <div class="col-lg-8 mx-auto">
+            <p class="text-faded mb-5">Monitoring is our job!</p>
+            <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="bg-primary" id="about" >
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <h2 class="section-heading text-white">We've got what you need!</h2>
+            <hr class="light my-4">
+            <p class="text-faded mb-4">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2 class="section-heading">At Your Service</h2>
+            <hr class="my-4">
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i class="fa fa-4x fa-diamond text-primary mb-3 sr-icons"></i>
+              <h3 class="mb-3">Sturdy Templates</h3>
+              <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i class="fa fa-4x fa-paper-plane text-primary mb-3 sr-icons"></i>
+              <h3 class="mb-3">Ready to Use</h3>
+              <p class="text-muted mb-0">Just click next next next and install <i class="fa fa-smile-o"></i></p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i class="fa fa-4x fa-newspaper-o text-primary mb-3 sr-icons"></i>
+              <h3 class="mb-3">Up to Date</h3>
+              <p class="text-muted mb-0">Server informations update per minute.</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i class="fa fa-4x fa-heart text-primary mb-3 sr-icons"></i>
+              <h3 class="mb-3">Made with Love</h3>
+              <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+            </div>
+          </div>
+        </div>
+        <!-- ./row -->
+      </div>
+      <!-- ./container -->
+    </section>
+    <!-- /.id=servides -->
+
+    <section class="p-0" id="portfolio" style="margin-bottom:15px;">
+      <div class="container">
+        <div class="content-section-heading text-center">
+          <h3 class="text-secondary mb-0">Portfolio</h3>
+          <h2 class="mb-5">Example Pages</h2>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-lg-6">
+            <a class="portfolio-item" href="/examplechart">
+              <span class="caption">
+                <span class="caption-content">
+                  <h2>Charts</h2>
+                  <p class="mb-0">Multiple charts for your servers. This charts are donut, line and bar chart.</p>
+                </span>
+              </span>
+              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/charts.jpg' %}" alt="">
+            </a>
+          </div>
+          <div class="col-lg-6">
+            <a class="portfolio-item" href="/exampleserver">
+              <span class="caption">
+                <span class="caption-content">
+                  <h2>New Server</h2>
+                  <p class="mb-0">Opening a new server has never been easier.</p>
+                </span>
+              </span>
+              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/createserver.jpg' %}" alt="">
+            </a>
+          </div>
+          <div class="col-lg-6">
+            <a class="portfolio-item" href="/exampledetail">
+              <span class="caption">
+                <span class="caption-content">
+                  <h2>Show All Servers</h2>
+                  <p class="mb-0">Show all servers in one page and update or delete it easier.</p>
+                </span>
+              </span>
+              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/detail.jpg' %}" alt="">
+            </a>
+          </div>
+          <div class="col-lg-6">
+            <a class="portfolio-item" href="/exampleserverdetail">
+              <span class="caption">
+                <span class="caption-content">
+                  <h2>Server Detail</h2>
+                  <p class="mb-0">More than information for your server and update and delete it easier.</p>
+                </span>
+              </span>
+              <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/serverdetail.jpg' %}" alt="">
+            </a>
+          </div>
+        </div>
+        <!-- /.no-gutters -->
+      </div>
+      <!-- ./container -->
+    </section>
+    <!-- ./p-0 -->
+
+    <section class="bg-dark text-white">
+      <div class="container text-center">
+        <h2 class="mb-4">Free Use at Django Monitoring!</h2>
+        <a class="btn btn-light btn-xl sr-button" href="/howtosetup">How to Setup!</a>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <h2>We <i class="fa fa-heart" style="color:red;"></i> new friends!</h2>
+              <hr class="my-4">
+            <p class="mb-5">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 ml-auto text-center">
+            <i class="fa fa-phone fa-3x mb-3 sr-contact"></i>
+            <p>123-456-6789</p>
+          </div>
+          <div class="col-lg-4 mr-auto text-center">
+            <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
+            <p>
+              <a href="mailto:slbandidas@gmail.com">feedback@monitoring.com</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- /.container -->
+    </section>
+    <!-- /.contact -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/scrollreveal/scrollreveal.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{% static 'bootstrap/js/creative.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/stylish-portfolio.min.js' %}"></script>
+
+  </body>
+
+</html>

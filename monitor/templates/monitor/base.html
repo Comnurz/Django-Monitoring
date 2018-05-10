@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Django Monitoring</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'bootstrap/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{% static 'bootstrap/vendor/metisMenu/metisMenu.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'bootstrap/dist/css/sb-admin-2.css' %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static 'bootstrap/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+    {% block css %}
+
+    {% endblock css %}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Django Monitoring</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                      {% if user.is_authenticated %}
+                        <li><a href="/detail"><i class="fa fa-th-list fa-fw"></i> Server List</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                        {% else %}
+                        <li><a href="/login"><i class="fa fa-sign-in fa-fw"></i> Signin</a>
+                        </li>
+                        <li><a href="/signup"><i class="fa fa-arrow-circle-up fa-fw"></i> Signup</a>
+                        </li>
+                        {% endif %}
+
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar " role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="/dashboard"><i class="fa fa-dashboard fa-fw"></i> Django Monitoring</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li>
+                          <a href="/server"><i class="fa fa-edit fa-fw"></i> Create Server</a>
+                        </li>
+                        <li>
+                          <a href="/howtosetup"><i class="fa fa-wrench fa-fw"></i> How to Setup</a>
+                        </li>
+                        {% if servers != "is null"%}
+                        <li>
+                            <a href="#"><i class="fa fa-th-list fa-fw"></i> Server List<span class="fa arrow"></span></a>
+                            <ul class="nav pre-scrollable nav-second-level">
+                                {% for server in servers %}
+                                  {% if not server.deleted_at %}
+                                    <li>
+                                      <a href="#">{{ server.server_name|title }}<span class="fa arrow"></span></a>
+                                      <ul class="nav nav-third-level">
+                                        <li>
+                                          <a href="{% url 'ram_chart' pk=server.id %}"><i class="glyphicon glyphicon-hdd"></i> RAM</a>
+                                        </li>
+                                        <li>
+                                          <a href="{% url 'cpu_chart' pk=server.id %}"><i class="fa fa-square"></i> CPU</a>
+                                        </li>
+                                        <li>
+                                          <a href="{% url 'disk_chart' pk=server.id %}"><i class="glyphicon glyphicon-floppy-disk"></i> DİSK</a>
+                                        </li>
+                                        <li>
+                                          <a href="{% url 'chart' pk=server.id %}"><i class="fa fa-bar-chart-o"></i> All Charts</a>
+                                        </li>
+                                      </ul>
+                                      <!-- /.nav-third-level -->
+                                    </li>
+                                  {% endif %}
+                                  <!-- end server in servers -->
+                                {% endfor %}
+                                <!-- endfor server in servers  -->
+                                {% else %}
+                                <!-- else servers == "is null" -->
+
+                                  <!-- what you want -->
+
+                                {% endif %}
+                                <!-- endif servers != "is null" -->
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        {% else %}
+                        <!-- else user.is_authenticated -->
+                        <li>
+                          <a href="/login"><i class="fa fa-sign-in fa-fw"></i> Singin</a>
+                        </li>
+                        <li>
+                          <a href="/signup"><i class="fa fa-arrow-circle-up fa-fw"></i> Singup</a>
+                        </li>
+                        {% endif %}
+                        <!-- endif user.is_authenticated -->
+                    </ul>
+                    <!-- /.nav -->
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.sidebar -->
+        </nav>
+        <!-- /.navbar-static-top -->
+
+        <!-- Page Content -->
+        <div id="page-wrapper">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-lg-12">
+                    {% block content %}
+                    {% endblock content %}
+                  </div>
+                  <!-- /.col-lg-12 -->
+              </div>
+              <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+      </div>
+      <!-- /#page-wrapper -->
+
+  </div>
+  <!-- /.wrapper -->
+    <!-- jQuery -->
+    {% include "monitor/footer.html" %}
+    <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{% static 'bootstrap/vendor/metisMenu/metisMenu.min.js' %}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static 'bootstrap/dist/js/sb-admin-2.js' %}"></script>
+    {% block script %}
+    {% endblock script %}
+</body>
+
+</html>

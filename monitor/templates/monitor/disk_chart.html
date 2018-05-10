@@ -1,0 +1,140 @@
+{% extends "monitor/base.html" %}
+{% load staticfiles %}
+
+
+{% block css %}
+<!-- Morris Charts CSS -->
+<link href="{% static 'bootstrap/vendor/morrisjs/morris.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+<h1></h1>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Used-Free Bar Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="diskBarChart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-12 -->
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Used-Free Donut Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="diskDonutChart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-12 -->
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Percent Line Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="diskLineChart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+{% endblock content %}
+
+
+{% block script %}
+<!-- Morris Charts JavaScript -->
+<script src="{% static 'bootstrap/vendor/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'bootstrap/vendor/morrisjs/morris.min.js' %}"></script>
+<script src="{% static 'bootstrap/data/morris-data.js' %}"></script>
+<script type="text/javascript">
+  var diskValuesJson=JSON.parse("{{diskValues|escapejs}}")
+
+  // create empty dicts for charts
+  var diskValuesforLineChart=[]
+  var diskValuesforDonutChart=[]
+  var diskValuesforBarChart=[]
+
+  // update dicts for charts
+  for (var i = 0; i < diskValuesJson.length; i++) {
+    var date=diskValuesJson[i].fields.date;
+    var sliced=date.slice(-13,-8)
+
+    diskValuesforLineChart.push({
+      hour: sliced,
+      diskPercent: diskValuesJson[i].fields.percent,
+    });
+    diskValuesforBarChart.push({
+      hour: sliced,
+      diskUsed: diskValuesJson[i].fields.used,
+      diskFree: diskValuesJson[i].fields.free
+    });
+  }
+
+  diskValuesforDonutChart.push(
+    {
+      label: "Used",
+      value: diskValuesJson[diskValuesJson.length-1].fields.used,
+    },
+    {
+      label: "Free",
+      value: diskValuesJson[diskValuesJson.length-1].fields.free,
+    });
+
+  // total is show 28
+  new Morris.Line({
+    // ID of the element in which to draw the chart.
+    element: 'diskLineChart',
+
+    // Chart data records -- each entry in this array corresponds to a point on the chart.
+    data: diskValuesforLineChart,
+    // The name of the data record attribute that contains x-values.
+    xkey: 'hour',
+    // A list of names of data record attributes that contain y-values.
+    ykeys: ['diskPercent'],
+    // Labels for the ykeys -- will be displayed when you hover over the chart.
+    labels: ['Disk Percent'],
+    pointSize:2,
+    hideHover:'auto',
+    parseTime: false
+  });
+
+  new Morris.Donut({
+    element: 'diskDonutChart',
+
+    data: diskValuesforDonutChart,
+
+    resize: true
+  });
+
+  new Morris.Bar({
+    element: 'diskBarChart',
+
+    data: diskValuesforBarChart,
+
+    xkey: 'hour',
+    ykeys: ['diskUsed', 'diskFree'],
+    labels: ['Used', 'Free'],
+    hideHover: 'auto',
+    resize: true
+  });
+
+</script>
+<!-- /.text/javascript -->
+
+{% endblock script %}

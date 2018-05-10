@@ -1,0 +1,169 @@
+{% extends "example/base.html" %}
+{% load staticfiles %}
+
+{% block css %}
+<!-- Morris Charts CSS -->
+<link href="{% static 'bootstrap/vendor/morrisjs/morris.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+<h1></h1>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Used-Free Bar Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="diskBarChart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-12 -->
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Used-Free Donut Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="diskDonutChart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-12 -->
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Percent Line Chart
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="diskLineChart"></div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel-default -->
+  </div>
+  <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+{% endblock content %}
+
+
+{% block script %}
+<!-- Morris Charts JavaScript -->
+<script src="{% static 'bootstrap/vendor/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'bootstrap/vendor/morrisjs/morris.min.js' %}"></script>
+<script src="{% static 'bootstrap/data/morris-data.js' %}"></script>
+<script type="text/javascript">
+  new Morris.Line({
+    // ID of the element in which to draw the chart.
+    element: 'diskLineChart',
+
+    // Chart data records -- each entry in this array corresponds to a point on the chart.
+    data:[{
+        hour: '20:01',
+        percent: 90.9
+      }, {
+        hour: '20:02',
+        percent: 90.2
+      }, {
+        hour: '20:03',
+        percent: 90.2
+      }, {
+        hour: '20:04',
+        percent: 90.2
+      }, {
+        hour: '20:05',
+        percent: 90.2
+      }, {
+        hour: '20:06',
+        percent: 90.2
+      }, {
+        hour: '20:07',
+        percent: 90.2
+      }, {
+        hour: '20:08',
+        percent: 90.2
+      }, {
+        hour: '20:09',
+        percent: 90.2
+      }, {
+        hour: '20:10',
+        percent: 90.2
+      }],
+    // The name of the data record attribute that contains x-values.
+    xkey: 'hour',
+    // A list of names of data record attributes that contain y-values.
+    ykeys: ['percent'],
+    // Labels for the ykeys -- will be displayed when you hover over the chart.
+    labels: ['Disk Percent'],
+    pointSize:2,
+    hideHover:'auto',
+    parseTime: false
+  });
+
+  new Morris.Donut({
+    element: 'diskDonutChart',
+
+    data: [{
+        label: "Used",
+        value: 42324774912
+    }, {
+        label: "Free",
+        value: 4595290112
+    }],
+
+    resize: true
+  });
+
+  new Morris.Bar({
+    element: 'diskBarChart',
+
+    data: [{
+        hour: '20.06',
+        used: 42330058752,
+        free: 4590006272
+    }, {
+        hour: '20.07',
+        used: 42330054656,
+        free: 4590010368
+    }, {
+        hour: '20.08',
+        used: 42320957440,
+        free: 4599107584
+    }, {
+        hour: '20.09',
+        used: 42317746176,
+        free: 4602318848
+    }, {
+        hour: '20.10',
+        used: 42318811136,
+        free: 4601253888
+    }, {
+        hour: '20.11',
+        used: 42323750912,
+        free: 4596314112
+    }, {
+        hour: '20.12',
+        used: 42324774912,
+        free: 4595290112
+    }],
+
+    xkey: 'hour',
+    ykeys: ['used', 'free'],
+    labels: ['Used', 'Free'],
+    hideHover: 'auto',
+    resize: true
+  });
+
+</script>
+<!-- /.text/javascript -->
+
+{% endblock script %}
