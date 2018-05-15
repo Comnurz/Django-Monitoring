@@ -27,7 +27,7 @@ def dbSave(request):
     cpu=request.GET.getlist('cpu','')
     disk=request.GET.getlist('disk','')
     server=request.GET.get('server','')
-
+    print(ram)
     # Save given data
     ramSave(ram,server)
     cpuSave(cpu,server)
@@ -326,17 +326,21 @@ def serverUser(serverobj,userobj):
 # Check user and server for pairing to server
 @api_view(['GET'])
 def checkUser(request):
-    if request.method=="GET":
-        user=request.GET.get('username')
-        pw=request.GET.get('password')
-        server_name=request.GET.get('server_name')
+    user=request.GET.get('username')
+    pw=request.GET.get('password')
+    server_name=request.GET.get('server_name')
+    userisexist=User.objects.filter(username=user).exists() #User exits control.
+    if userisexist:
         current_user=User.objects.get(username=user) #get user from database by filtering username
-        current_server=Server.objects.get(server_name=server_name)#get server from database by filtering server_name
-        is_pw=current_user.check_password(pw) #check user password
-        if is_pw:
-            server_userobj=Server_User.objects.filter(server_id=current_server.id,user_id=current_user.id).exists() #check server user pairing
-            if server_userobj:
-                return Response(current_server.id)
-            return Response(status_code=404)
-        return Response(status_code=404)
-    return Response(status_code=404)
+        serverisexist=Server.objects.filter(server_name=server_name).filter()
+        if serverisexist:
+            current_server=Server.objects.get(server_name=server_name)#get server from database by filtering server_name
+            is_pw=current_user.check_password(pw) #check user password
+            if is_pw:
+                server_userobj=Server_User.objects.filter(server_id=current_server.id,user_id=current_user.id).exists() #check server user pairing
+                if server_userobj:
+                    return Response(current_server.id)
+                return HttpResponse(status=404)
+            return HttpResponse(status=404)
+        return HttpResponse(status=404)
+    return HttpResponse(status=404)
