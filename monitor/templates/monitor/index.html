@@ -1,5 +1,5 @@
 {% load staticfiles %}
-
+{% load i18n %}
 
 <html lang="en">
 
@@ -34,23 +34,39 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Django Monitoring</a>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top"> Django {% trans 'Monitoring' %}</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#about">About</a>
+              <form action="{% url 'set_language' %}" method="post">
+                  {% csrf_token %}
+                  <input name="next" type="hidden" value="{{ redirect_to }}" />
+                  <select name="language">
+                      {% get_current_language as SELECTEDLANG %}
+                      {% get_available_languages as LANGUAGES %}
+                      {% for lang in LANGUAGES %}
+                          <option value="{{ lang.0 }}" {% if lang.0 == SELECTEDLANG %}selected{% endif %}>{% if lang.1 == 'English' %}English{% else %}{{ lang.1 }}{% endif %}
+
+                          </option>
+                      {% endfor %}
+                  </select>
+                  <input type="submit" value="Go" />
+              </form>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+              <a class="nav-link js-scroll-trigger" href="#about">{% trans 'About' %}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
+              <a class="nav-link js-scroll-trigger" href="#services">{% trans 'Services' %}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+              <a class="nav-link js-scroll-trigger" href="#portfolio">{% trans 'Portfolio' %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#contact">{% trans 'Contact' %}</a>
             </li>
             <li class="nav-item dropdown" style="margin-top:5px;">
                 <a class="nav-link" data-toggle="dropdown" href="#" style="text-decoration:none;">
@@ -58,17 +74,17 @@
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                   {% if user.is_authenticated %}
-                      <li><a href="/dashboard" style="color:#495057;"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
+                      <li><a href="/dashboard" style="color:#495057;"><i class="fa fa-dashboard fa-fw"></i>{% trans 'Dashboard' %}</a>
                       </li>
-                      <li><a href="/detail" style="color:#495057;"><i class="fa fa-th-list fa-fw"></i> Server List</a>
+                      <li><a href="/detail" style="color:#495057;"><i class="fa fa-th-list fa-fw"></i> {% trans 'Server List' %}</a>
                       </li>
                       <li class="divider"></li>
-                      <li><a href="/logout" style="color:#495057;"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                      <li><a href="/logout" style="color:#495057;"><i class="fa fa-sign-out fa-fw"></i> {% trans 'Logout' %}</a>
                       </li>
                   {% else %}
-                      <li><a href="/login" style="color:#495057;"><i class="fa fa-sign-in fa-fw"></i> Signin</a>
+                      <li><a href="/login" style="color:#495057;"><i class="fa fa-sign-in fa-fw"></i> {% trans 'Sign in' %}</a>
                       </li>
-                      <li><a href="/signup" style="color:#495057;"><i class="fa fa-arrow-circle-up fa-fw"></i> Signup</a>
+                      <li><a href="/signup" style="color:#495057;"><i class="fa fa-arrow-circle-up fa-fw"></i> {% trans 'Sign up' %}</a>
                       </li>
                   {% endif %}
               </ul>
@@ -89,13 +105,13 @@
         <div class="row">
           <div class="col-lg-10 mx-auto">
             <h1 class="text-uppercase">
-              <strong>Your Favorite Monitoring Website</strong>
+              <strong>{% trans 'Your Favorite Monitoring Website' %}</strong>
             </h1>
             <hr>
           </div>
           <div class="col-lg-8 mx-auto">
-            <p class="text-faded mb-5">Monitoring is our job!</p>
-            <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Learn More</a>
+            <p class="text-faded mb-5">{% trans 'Monitoring is our job!' %}</p>
+            <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">{% trans 'Learn More' %}</a>
           </div>
         </div>
       </div>
@@ -105,12 +121,14 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
-            <h2 class="section-heading text-white">We've got what you need!</h2>
+            <h2 class="section-heading text-white">{% trans 'We have got what you need!' %}</h2>
             <hr class="light my-4">
             <p class="text-faded mb-4">
+              {% blocktrans %}
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              {% endblocktrans %}
             </p>
-            <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>
+            <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">{% trans 'Get Started!' %}</a>
           </div>
         </div>
       </div>
@@ -120,7 +138,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h2 class="section-heading">At Your Service</h2>
+            <h2 class="section-heading">{% trans 'At Your Service' %}</h2>
             <hr class="my-4">
           </div>
         </div>
@@ -130,29 +148,29 @@
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
               <i class="fa fa-4x fa-diamond text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Sturdy Templates</h3>
-              <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+              <h3 class="mb-3">{% trans 'Sturdy Templates' }</h3>
+              <p class="text-muted mb-0">{% blocktrans %} Lorem ipsum dolor sit amet, consectetur adipisicing elit. {% endblocktrans %}</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
               <i class="fa fa-4x fa-paper-plane text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Ready to Use</h3>
-              <p class="text-muted mb-0">Just click next next next and install <i class="fa fa-smile-o"></i></p>
+              <h3 class="mb-3">{% trans 'Ready to Use' %}</h3>
+              <p class="text-muted mb-0">{% trans 'Just click next next next and install' %} <i class="fa fa-smile-o"></i></p>
             </div>
           </div>
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
               <i class="fa fa-4x fa-newspaper-o text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Up to Date</h3>
-              <p class="text-muted mb-0">Server informations update per minute.</p>
+              <h3 class="mb-3">{% trans 'Up to Date' %}</h3>
+              <p class="text-muted mb-0">{% blocktrans %} Server informations update per minute. {% endblocktrans %}</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
               <i class="fa fa-4x fa-heart text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Made with Love</h3>
-              <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+              <h3 class="mb-3">{% trans 'Made with Love' %}</h3>
+              <p class="text-muted mb-0">{% blocktrans %} Lorem ipsum dolor sit amet, consectetur adipisicing elit. {% endblocktrans %}</p>
             </div>
           </div>
         </div>
@@ -165,16 +183,16 @@
     <section class="p-0" id="portfolio" style="margin-bottom:15px;">
       <div class="container">
         <div class="content-section-heading text-center">
-          <h3 class="text-secondary mb-0">Portfolio</h3>
-          <h2 class="mb-5">Example Pages</h2>
+          <h3 class="text-secondary mb-0">{% trans 'Portfolio' %}</h3>
+          <h2 class="mb-5">{% trans 'Example Pages' %}</h2>
         </div>
         <div class="row no-gutters">
           <div class="col-lg-6">
             <a class="portfolio-item" href="/examplechart">
               <span class="caption">
                 <span class="caption-content">
-                  <h2>Charts</h2>
-                  <p class="mb-0">Multiple charts for your servers. This charts are donut, line and bar chart.</p>
+                  <h2>{% trans 'Charts' %}</h2>
+                  <p class="mb-0">{% blocktrans %} Multiple charts for your servers. This charts are donut, line and bar chart.  {% endblocktrans %}</p>
                 </span>
               </span>
               <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/charts.jpg' %}" alt="">
@@ -184,8 +202,8 @@
             <a class="portfolio-item" href="/exampleserver">
               <span class="caption">
                 <span class="caption-content">
-                  <h2>New Server</h2>
-                  <p class="mb-0">Opening a new server has never been easier.</p>
+                  <h2>{% trans 'New Server' %}</h2>
+                  <p class="mb-0">{% blocktrans %} Opening a new server has never been easier. {% endblocktrans %}</p>
                 </span>
               </span>
               <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/createserver.jpg' %}" alt="">
@@ -195,8 +213,8 @@
             <a class="portfolio-item" href="/exampledetail">
               <span class="caption">
                 <span class="caption-content">
-                  <h2>Show All Servers</h2>
-                  <p class="mb-0">Show all servers in one page and update or delete it easier.</p>
+                  <h2>{% trans 'Show All Servers' %}</h2>
+                  <p class="mb-0">{% blocktrans %} Show all servers in one page and update or delete it easier. {% endblocktrans %}</p>
                 </span>
               </span>
               <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/detail.jpg' %}" alt="">
@@ -206,8 +224,8 @@
             <a class="portfolio-item" href="/exampleserverdetail">
               <span class="caption">
                 <span class="caption-content">
-                  <h2>Server Detail</h2>
-                  <p class="mb-0">More than information for your server and update and delete it easier.</p>
+                  <h2>{% trans 'Server Detail' %}</h2>
+                  <p class="mb-0">{% blocktrans %} More than information for your server and update and delete it easier. {% endblocktrans %}</p>
                 </span>
               </span>
               <img class="img-fluid" src="{% static 'bootstrap/img/portfolio/fullsize/serverdetail.jpg' %}" alt="">
@@ -222,8 +240,8 @@
 
     <section class="bg-dark text-white">
       <div class="container text-center">
-        <h2 class="mb-4">Free Use at Django Monitoring!</h2>
-        <a class="btn btn-light btn-xl sr-button" href="/howtosetup">How to Setup!</a>
+        <h2 class="mb-4">{% trans 'Free Use at Django Monitoring!' %}</h2>
+        <a class="btn btn-light btn-xl sr-button" href="/howtosetup">{% trans 'How to Setup!' %}</a>
       </div>
     </section>
 
@@ -231,10 +249,12 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
-            <h2>We <i class="fa fa-heart" style="color:red;"></i> new friends!</h2>
+            <h2>{% trans 'We' %} <i class="fa fa-heart" style="color:red;"></i> {% trans 'new friends!' %}</h2>
               <hr class="my-4">
             <p class="mb-5">
+              {% blocktrans %}
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              {% endblocktrans %}
             </p>
           </div>
         </div>

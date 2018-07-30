@@ -1,4 +1,5 @@
 {% extends "monitor/base.html" %}
+{% load i18n %}
 {% block content %}
 	<h2></h2>
 <form method="post">
@@ -6,7 +7,7 @@
 	<div class="col-lg-4 col-lg-offset-4">
 	 <div class="panel panel-default">
 		 <div class="panel-heading">
-				 Sign Up
+				 {% trans 'Sign Up' %}
 		 </div>
 		 <!-- /.panel-default -->
 
@@ -33,7 +34,7 @@
 							 <input id="password2" class="form-control" placeholder="Password" name="password2" type="password" autofocus>
 						 </div>
 						 <!-- Change this to a button or input when using this as a form -->
-						 <button type="submit" class="btn btn-lg btn-success btn-block">Sign Up</button>
+						 <button type="submit" class="btn btn-lg btn-success btn-block">{% trans 'Sign Up' %}</button>
 					 </fieldset>
 				 </form>
 			 </div>

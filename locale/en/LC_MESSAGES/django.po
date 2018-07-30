@@ -1,0 +1,553 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-24 17:12+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: monitor/templates/example/base.html:48
+#: monitor/templates/monitor/base.html:48
+msgid "Toggle navigation"
+msgstr ""
+
+#: monitor/templates/example/base.html:53
+#: monitor/templates/example/base.html:78
+msgid "Django Monitoring"
+msgstr ""
+
+#: monitor/templates/example/base.html:63
+#: monitor/templates/example/base.html:87
+#: monitor/templates/monitor/base.html:65
+#: monitor/templates/monitor/base.html:99
+#: monitor/templates/monitor/footer.html:50
+#: monitor/templates/monitor/index.html:79
+msgid "Server List"
+msgstr ""
+
+#: monitor/templates/example/base.html:65
+msgid "Try now!"
+msgstr ""
+
+#: monitor/templates/example/base.html:66
+msgid "Signin"
+msgstr ""
+
+#: monitor/templates/example/base.html:81
+#: monitor/templates/example/server.html:9
+#: monitor/templates/monitor/base.html:92
+#: monitor/templates/monitor/footer.html:54
+#: monitor/templates/registration/server.html:9
+msgid "Create Server"
+msgstr ""
+
+#: monitor/templates/example/base.html:84
+#: monitor/templates/monitor/base.html:95
+#: monitor/templates/monitor/footer.html:58
+msgid "How to Setup"
+msgstr ""
+
+#: monitor/templates/example/base.html:90
+#: monitor/templates/example/detail.html:12
+#: monitor/templates/example/serverdetail.html:9
+msgid "Example Server"
+msgstr ""
+
+#: monitor/templates/example/base.html:93
+#: monitor/templates/example/base.html:111
+msgid "RAM"
+msgstr ""
+
+#: monitor/templates/example/base.html:96
+#: monitor/templates/example/base.html:114
+msgid "CPU"
+msgstr ""
+
+#: monitor/templates/example/base.html:99
+#: monitor/templates/example/base.html:117
+msgid "DİSK"
+msgstr ""
+
+#: monitor/templates/example/base.html:102
+#: monitor/templates/example/base.html:120
+#: monitor/templates/example/detail.html:29
+#: monitor/templates/example/detail.html:56
+#: monitor/templates/monitor/base.html:116
+#: monitor/templates/monitor/detail.html:33
+msgid "All Charts"
+msgstr ""
+
+#: monitor/templates/example/base.html:108
+#: monitor/templates/example/detail.html:39
+#: monitor/templates/example/serverdetail2.html:9
+msgid "Example Server 2"
+msgstr ""
+
+#: monitor/templates/example/chart.html:16
+#: monitor/templates/example/cpuchart.html:16
+#: monitor/templates/monitor/chart.html:16
+#: monitor/templates/monitor/cpu_chart.html:16
+msgid "Cpu Percent Line Chart"
+msgstr ""
+
+#: monitor/templates/example/chart.html:30
+#: monitor/templates/example/ramchart.html:45
+#: monitor/templates/monitor/chart.html:30
+msgid "Ram Percent Line Chart"
+msgstr ""
+
+#: monitor/templates/example/chart.html:44
+#: monitor/templates/example/diskchart.html:44
+#: monitor/templates/monitor/chart.html:44
+#: monitor/templates/monitor/disk_chart.html:44
+msgid "Disk Percent Line Chart"
+msgstr ""
+
+#: monitor/templates/example/dashboard.html:6
+#: monitor/templates/monitor/dashboard.html:6
+msgid ""
+"\n"
+"  Dashboard\n"
+"  "
+msgstr ""
+
+#: monitor/templates/example/detail.html:22
+#: monitor/templates/example/detail.html:120
+#: monitor/templates/example/serverdetail.html:34
+msgid "This is example server!"
+msgstr ""
+
+#: monitor/templates/example/detail.html:26
+#: monitor/templates/example/detail.html:53
+msgid "Disk"
+msgstr ""
+
+#: monitor/templates/example/detail.html:27
+#: monitor/templates/example/detail.html:54
+msgid "Cpu"
+msgstr ""
+
+#: monitor/templates/example/detail.html:28
+#: monitor/templates/example/detail.html:55
+msgid "Ram"
+msgstr ""
+
+#: monitor/templates/example/detail.html:49
+#: monitor/templates/example/detail.html:148
+#: monitor/templates/example/serverdetail2.html:34
+msgid "This is example server 2!"
+msgstr ""
+
+#: monitor/templates/example/detail.html:70
+msgid "Delete Example Server"
+msgstr ""
+
+#: monitor/templates/example/detail.html:73
+msgid "Are you sure delete Example Server?"
+msgstr ""
+
+#: monitor/templates/example/detail.html:76
+#: monitor/templates/example/detail.html:97
+#: monitor/templates/example/serverdetail.html:66
+#: monitor/templates/example/serverdetail2.html:66
+#: monitor/templates/monitor/detail.html:52
+#: monitor/templates/monitor/server_detail.html:84
+msgid "I am Sure"
+msgstr ""
+
+#: monitor/templates/example/detail.html:77
+#: monitor/templates/example/detail.html:98
+#: monitor/templates/example/detail.html:126
+#: monitor/templates/example/detail.html:154
+#: monitor/templates/example/serverdetail.html:67
+#: monitor/templates/example/serverdetail.html:95
+#: monitor/templates/example/serverdetail2.html:67
+#: monitor/templates/monitor/detail.html:53
+#: monitor/templates/monitor/detail.html:97
+#: monitor/templates/monitor/server_detail.html:85
+#: monitor/templates/monitor/server_detail.html:129
+msgid "Close"
+msgstr ""
+
+#: monitor/templates/example/detail.html:91
+#: monitor/templates/example/serverdetail2.html:60
+msgid "Delete Example Server 2"
+msgstr ""
+
+#: monitor/templates/example/detail.html:94
+#: monitor/templates/example/serverdetail2.html:63
+msgid "Are you sure delete Example Server 2?"
+msgstr ""
+
+#: monitor/templates/example/detail.html:113
+msgid "Update Example Server"
+msgstr ""
+
+#: monitor/templates/example/detail.html:125
+#: monitor/templates/example/detail.html:153
+#: monitor/templates/example/server.html:23
+#: monitor/templates/example/serverdetail.html:94
+#: monitor/templates/monitor/detail.html:91
+#: monitor/templates/monitor/server_detail.html:123
+msgid "Save"
+msgstr ""
+
+#: monitor/templates/example/detail.html:141
+msgid "Update Example Server 2"
+msgstr ""
+
+#: monitor/templates/example/diskchart.html:16
+#: monitor/templates/monitor/disk_chart.html:16
+msgid "Disk Used-Free Bar Chart"
+msgstr ""
+
+#: monitor/templates/example/diskchart.html:30
+#: monitor/templates/monitor/disk_chart.html:30
+msgid "Disk Used-Free Donut Chart"
+msgstr ""
+
+#: monitor/templates/example/howtosetup.html:7
+#: monitor/templates/monitor/howtosetup.html:7
+msgid ""
+"\n"
+"\tserver.py run on your server which want to get data.\n"
+"\tRun this commant in your server terminal:\n"
+"\t"
+msgstr ""
+
+#: monitor/templates/example/howtosetup.html:17
+#: monitor/templates/monitor/howtosetup.html:17
+msgid ""
+"\n"
+"\tPlease enter your username, password and server name for verify on server."
+"py . If you see \"Success\" everything is OK.\n"
+"\t"
+msgstr ""
+
+#: monitor/templates/example/howtosetup.html:22
+#: monitor/templates/monitor/howtosetup.html:22
+msgid ""
+"\n"
+"\tIf dont see success something went wrong please check your username or "
+"password or servername.\n"
+"\t"
+msgstr ""
+
+#: monitor/templates/example/ramchart.html:16
+#: monitor/templates/monitor/ram_chart.html:16
+msgid "Ram Used-Free Bar Chart"
+msgstr ""
+
+#: monitor/templates/example/ramchart.html:30
+#: monitor/templates/monitor/ram_chart.html:30
+msgid "Ram Used-Free Donut Chart"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:10
+#: monitor/templates/example/serverdetail.html:60
+#: monitor/templates/example/serverdetail2.html:10
+#: monitor/templates/monitor/detail.html:46
+#: monitor/templates/monitor/server_detail.html:78
+msgid "Delete"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:12
+#: monitor/templates/example/serverdetail.html:82
+#: monitor/templates/example/serverdetail2.html:12
+#: monitor/templates/monitor/detail.html:68
+#: monitor/templates/monitor/server_detail.html:100
+msgid "Update"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:19
+#: monitor/templates/example/serverdetail2.html:19
+#: monitor/templates/monitor/server_detail.html:19
+msgid "Server Information"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:21
+#: monitor/templates/example/serverdetail2.html:21
+#: monitor/templates/monitor/server_detail.html:21
+msgid "Ram Information"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:23
+#: monitor/templates/example/serverdetail2.html:23
+#: monitor/templates/monitor/server_detail.html:23
+msgid "Disk Information"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:25
+#: monitor/templates/example/serverdetail2.html:25
+#: monitor/templates/monitor/server_detail.html:25
+msgid "CPU Information"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:32
+#: monitor/templates/example/serverdetail2.html:32
+msgid "This server created at:"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:38
+#: monitor/templates/example/serverdetail2.html:38
+#: monitor/templates/monitor/server_detail.html:39
+msgid "Total ram values:"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:41
+#: monitor/templates/example/serverdetail2.html:41
+#: monitor/templates/monitor/server_detail.html:48
+msgid "Total cpu values:"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:44
+#: monitor/templates/example/serverdetail2.html:44
+#: monitor/templates/monitor/server_detail.html:57
+msgid "Total disk values:"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:63
+msgid "Are you sure delete ?"
+msgstr ""
+
+#: monitor/templates/example/serverdetail.html:89
+msgid "This is Example Server!"
+msgstr ""
+
+#: monitor/templates/monitor/base.html:53
+#: monitor/templates/monitor/base.html:88
+#: monitor/templates/monitor/index.html:37
+msgid "Monitoring"
+msgstr ""
+
+#: monitor/templates/monitor/base.html:68
+#: monitor/templates/monitor/index.html:82
+msgid "Logout"
+msgstr ""
+
+#: monitor/templates/monitor/base.html:71
+#: monitor/templates/monitor/index.html:85
+msgid "Sign in"
+msgstr ""
+
+#: monitor/templates/monitor/base.html:73
+#: monitor/templates/monitor/index.html:87
+msgid "Sign up"
+msgstr ""
+
+#: monitor/templates/monitor/base.html:138
+msgid "Sing in"
+msgstr ""
+
+#: monitor/templates/monitor/base.html:141
+msgid "Sing up"
+msgstr ""
+
+#: monitor/templates/monitor/detail.html:49
+#: monitor/templates/monitor/server_detail.html:81
+msgid "Are you sure delete"
+msgstr ""
+
+#: monitor/templates/monitor/footer.html:46
+msgid "Home"
+msgstr ""
+
+#: monitor/templates/monitor/footer.html:73
+msgid "Powered by Love"
+msgstr ""
+
+#: monitor/templates/monitor/howtosetup.html:5
+msgid "Django monitoring web application"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:60
+msgid "About"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:63
+msgid "Services"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:66
+#: monitor/templates/monitor/index.html:186
+msgid "Portfolio"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:69
+msgid "Contact"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:77
+msgid "Dashboard"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:108
+msgid "Your Favorite Monitoring Website"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:113
+msgid "Monitoring is our job!"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:114
+msgid "Learn More"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:124
+msgid "We have got what you need!"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:127
+msgid ""
+"\n"
+"              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat.\n"
+"              "
+msgstr ""
+
+#: monitor/templates/monitor/index.html:131
+msgid "Get Started!"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:141
+msgid "At Your Service"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:152
+#: monitor/templates/monitor/index.html:173
+msgid " Lorem ipsum dolor sit amet, consectetur adipisicing elit. "
+msgstr ""
+
+#: monitor/templates/monitor/index.html:158
+msgid "Ready to Use"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:159
+msgid "Just click next next next and install"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:165
+msgid "Up to Date"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:166
+msgid " Server informations update per minute. "
+msgstr ""
+
+#: monitor/templates/monitor/index.html:172
+msgid "Made with Love"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:187
+msgid "Example Pages"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:194
+msgid "Charts"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:195
+msgid ""
+" Multiple charts for your servers. This charts are donut, line and bar "
+"chart.  "
+msgstr ""
+
+#: monitor/templates/monitor/index.html:205
+msgid "New Server"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:206
+msgid " Opening a new server has never been easier. "
+msgstr ""
+
+#: monitor/templates/monitor/index.html:216
+msgid "Show All Servers"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:217
+msgid " Show all servers in one page and update or delete it easier. "
+msgstr ""
+
+#: monitor/templates/monitor/index.html:227
+msgid "Server Detail"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:228
+msgid ""
+" More than information for your server and update and delete it easier. "
+msgstr ""
+
+#: monitor/templates/monitor/index.html:243
+msgid "Free Use at Django Monitoring!"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:244
+msgid "How to Setup!"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:252
+msgid "We"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:252
+msgid "new friends!"
+msgstr ""
+
+#: monitor/templates/monitor/index.html:255
+msgid ""
+"\n"
+"              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
+"              "
+msgstr ""
+
+#: monitor/templates/monitor/server_detail.html:32
+msgid "This server created at"
+msgstr ""
+
+#: monitor/templates/monitor/server_detail.html:42
+#: monitor/templates/monitor/server_detail.html:51
+#: monitor/templates/monitor/server_detail.html:60
+msgid "There is no data. You can setup your server"
+msgstr ""
+
+#: monitor/templates/monitor/server_detail.html:42
+#: monitor/templates/monitor/server_detail.html:51
+#: monitor/templates/monitor/server_detail.html:60
+msgid "here!"
+msgstr ""
+
+#: monitor/templates/registration/login.html:12
+#: monitor/templates/registration/login.html:27
+msgid "Sign In"
+msgstr ""
+
+#: monitor/templates/registration/server.html:18
+msgid "Danger!"
+msgstr ""
+
+#: monitor/templates/registration/signup.html:10
+#: monitor/templates/registration/signup.html:37
+msgid "Sign Up"
+msgstr ""
+
+#: monitoring/settings.py:120
+msgid "English"
+msgstr ""
+
+#: monitoring/settings.py:121
+msgid "Türkçe"
+msgstr ""

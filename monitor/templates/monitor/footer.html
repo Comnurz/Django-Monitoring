@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 
 <link href="{% static 'bootstrap/vendor/footer/css/footer.css' %}" rel="stylesheet">
 <!--
@@ -42,19 +43,19 @@
                   <ul class="menu">
 
                          <li>
-                            <a href="/">Home</a>
+                            <a href="/">{% trans 'Home' %}</a>
                           </li>
 
                           <li>
-                             <a href="/detail">Server List</a>
+                             <a href="/detail">{% trans 'Server List' %}</a>
                           </li>
 
                           <li>
-                            <a href="/server">Create Server</a>
+                            <a href="/server">{% trans 'Create Server' %}</a>
                           </li>
 
                           <li>
-                             <a href="/howtosetup">How to Setup</a>
+                             <a href="/howtosetup">{% trans 'How to Setup' %}</a>
                           </li>
 
                     </ul>
@@ -69,7 +70,7 @@
  <div class="container">
 
      <div class="row text-center">
-     	<p>Powered by Love <a href="https://github.com/Comnurz/Django-Monitoring" target="_blank"><i class="fa fa-heart" style="color:red;"></i></a></p>
+     	<p>{% trans 'Powered by Love' %} <a href="https://github.com/Comnurz/Django-Monitoring" target="_blank"><i class="fa fa-heart" style="color:red;"></i></a></p>
      </div>
 
    </div>

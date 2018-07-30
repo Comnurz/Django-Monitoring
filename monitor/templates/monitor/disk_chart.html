@@ -1,6 +1,6 @@
 {% extends "monitor/base.html" %}
 {% load staticfiles %}
-
+{% load i18n %}
 
 {% block css %}
 <!-- Morris Charts CSS -->
@@ -13,7 +13,7 @@
   <div class="col-lg-12">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Used-Free Bar Chart
+            <i class="fa fa-bar-chart-o fa-fw"></i> {% trans 'Disk Used-Free Bar Chart' %}
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
@@ -27,7 +27,7 @@
   <div class="col-lg-6">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Used-Free Donut Chart
+            <i class="fa fa-bar-chart-o fa-fw"></i> {% trans 'Disk Used-Free Donut Chart' %}
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
@@ -41,7 +41,7 @@
   <div class="col-lg-6">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <i class="fa fa-bar-chart-o fa-fw"></i> Disk Percent Line Chart
+            <i class="fa fa-bar-chart-o fa-fw"></i> {% trans 'Disk Percent Line Chart' %}
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">

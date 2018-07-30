@@ -1,5 +1,5 @@
 {% extends 'monitor/base.html' %}
-
+{% load i18n %}
 {% block content %}
 <h1></h1>
 <div class="row">
@@ -16,48 +16,48 @@
         <div class="panel-body">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#server" data-toggle="tab">Server Information</a>
+                <li class="active"><a href="#server" data-toggle="tab">{% trans 'Server Information' %}</a>
                 </li>
-                <li><a href="#ram" data-toggle="tab">Ram Information</a>
+                <li><a href="#ram" data-toggle="tab">{% trans 'Ram Information' %}</a>
                 </li>
-                <li><a href="#cpu" data-toggle="tab">Disk Information</a>
+                <li><a href="#cpu" data-toggle="tab">{% trans 'Disk Information' %}</a>
                 </li>
-                <li><a href="#disk" data-toggle="tab">CPU Information</a>
+                <li><a href="#disk" data-toggle="tab">{% trans 'CPU Information' %}</a>
                 </li>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="server">
-                    <h4>This server created at:<small> {{server.date}}</small></h4>
+                    <h4>{% trans 'This server created at' %}:<small> {{server.date}}</small></h4>
                     <p style="word-break: break-all;">
                       {{server.server_description}}
                     </p>
                 </div>
                 <div class="tab-pane fade" id="ram">
                   {% if ram %}
-                    <h4>Total ram values: <small>{{ram|length}}</small></h4>
+                    <h4>{% trans 'Total ram values:' %} <small>{{ram|length}}</small></h4>
                   {% else %}
                     <p class="lead text-center">
-                      There is no data. You can setup your server <a href="{% url 'howtosetup' %}">here!</a>
+                      {% trans 'There is no data. You can setup your server' %} <a href="{% url 'howtosetup' %}">{% trans 'here!' %}</a>
                     </p>
                   {% endif %}
                 </div>
                 <div class="tab-pane fade" id="cpu">
                   {% if cpu %}
-                    <h4>Total cpu values: <small>{{cpu|length}}</small></h4>
+                    <h4>{% trans 'Total cpu values:' %} <small>{{cpu|length}}</small></h4>
                   {% else %}
                     <p class="lead text-center">
-                      There is no data. You can setup your server <a href="{% url 'howtosetup' %}">here!</a>
+                      {% trans 'There is no data. You can setup your server' %} <a href="{% url 'howtosetup' %}">{% trans 'here!' %}</a>
                     </p>
                   {% endif %}
                 </div>
                 <div class="tab-pane fade" id="disk">
                   {% if disk %}
-                    <h4>Total disk values: <small>{{disk|length}}</small></h4>
+                    <h4>{% trans 'Total disk values:' %} <small>{{disk|length}}</small></h4>
                   {% else %}
                     <p class="lead text-center">
-                      There is no data. You can setup your server <a href="{% url 'howtosetup' %}">here!</a>
+                      {% trans 'There is no data. You can setup your server' %} <a href="{% url 'howtosetup' %}">{% trans 'here!' %}</a>
                     </p>
                   {% endif %}
                 </div>
@@ -75,14 +75,14 @@
   <div class="modal-content">
    <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title">Delete {{server.server_name}}</h4>
+    <h4 class="modal-title">{% trans 'Delete' %} {{server.server_name}}</h4>
    </div>
    <div class="modal-body">
-    <p>Are you sure delete {{server.server_name}} </p>
+    <p>{% trans 'Are you sure delete' %} {{server.server_name}} </p>
    </div>
    <div class="modal-footer">
-    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="location.href='{% url 'deleteServer' pk=server.id %}'">I'm Sure</button>
-    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="location.href='{% url 'deleteServer' pk=server.id %}'">{% trans 'I am Sure' %}</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
    </div>
   </div>
   <!-- ./modal-content -->
@@ -97,7 +97,7 @@
   <div class="modal-content">
    <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title">Update {{server.server_name}}</h4>
+    <h4 class="modal-title">{% trans 'Update' %} {{server.server_name}}</h4>
    </div>
    <div class="modal-body">
      <form method="POST" class="post-form">{% csrf_token %}
@@ -120,13 +120,13 @@
    </div>
    <!-- ./modal-body -->
    <div class="modal-footer">
-    <button type="submit" class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success">{% trans 'Save' %}</button>
     </fieldset>
   </form>
   <!-- ./form -->
 </form>
 <!-- ./post-form -->
-    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
    </div>
    <!-- ./modal-footer -->
   </div>

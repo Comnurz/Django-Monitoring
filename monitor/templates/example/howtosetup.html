@@ -1,21 +1,27 @@
 {% extends "example/base.html" %}
-
+{% load i18n %}
 
 {% block content %}
-<h1>Django monitoring web application</h1>
+<h1>{% trans 'Django monitoring web application' trans}</h1>
 <p>
+	{% blocktrans %}
 	server.py run on your server which want to get data.
 	Run this commant in your server terminal:
+	{% endblocktrans %}
 	<pre>
 		<code>pip3 install -r serverrequirements.txt</code>
 	</pre>
 </p>
 
 <p>
+	{% blocktrans %}
 	Please enter your username, password and server name for verify on server.py . If you see "Success" everything is OK.
+	{% endblocktrans %}
 </p>
 <p>
+	{% blocktrans %}
 	If dont see success something went wrong please check your username or password or servername.
+	{% endblocktrans %}
 </p>
 
 {% endblock content %}

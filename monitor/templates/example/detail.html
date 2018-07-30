@@ -1,4 +1,5 @@
 {% extends 'example/base.html' %}
+{% load i18n %}
 
 {% block content %}
 
@@ -8,7 +9,7 @@
 					<div class="panel panel-default">
 							<div class="panel-heading" style="height:45px">
 								<a href="/exampleserverdetail">
-									<strong>Example Server</strong>
+									<strong>{% trans 'Example Server' %}</strong>
 								</a>
 								<!-- Trigger the modal with a button -->
 								<button type="button" class="btn btn-danger btn-circle pull-right" data-toggle="modal" data-target="#deleteExampleServer"><i class="fa fa-times"></i>
@@ -18,14 +19,14 @@
 							</div>
 							<div class="panel-body" style="height:90px;">
 								<p style="word-break: break-all;">
-										<small>	This is example server! </small>
+										<small>	{% trans 'This is example server!' %} </small>
 								</p>
 							</div>
 							<div class="panel-footer">
-								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_disk_chart' %}'">Disk</button>
-								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_cpu_chart' %}'">Cpu</button>
-								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_ram_chart' %}'">Ram</button>
-								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_chart' %}'">All Charts</button>
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_disk_chart' %}'">{% trans 'Disk' %}</button>
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_cpu_chart' %}'">{% trans 'Cpu' %}</button>
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_ram_chart' %}'">{% trans 'Ram' %}</button>
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_chart' %}'">{% trans 'All Charts' %}</button>
 							</div>
 					</div>
 					<!-- ./panel-default -->
@@ -35,7 +36,7 @@
 					<div class="panel panel-default">
 							<div class="panel-heading" style="height:45px">
 								<a href="/exampleserver2detail">
-									<strong>Example Server 2</strong>
+									<strong>{% trans 'Example Server 2' %}</strong>
 								</a>
 								<!-- Trigger the modal with a button -->
 								<button type="button" class="btn btn-danger btn-circle pull-right" data-toggle="modal" data-target="#deleteExampleServer2"><i class="fa fa-times"></i>
@@ -45,14 +46,14 @@
 							</div>
 							<div class="panel-body" style="height:90px;">
 								<p style="word-break: break-all;">
-										<small id="desc2">	This is example server 2! </small>
+										<small id="desc2">	{% trans 'This is example server 2!' %} </small>
 								</p>
 							</div>
 							<div class="panel-footer">
-								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_disk_chart' %}'">Disk</button>
-								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_cpu_chart' %}'">Cpu</button>
-								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_ram_chart' %}'">Ram</button>
-								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_chart' %}'">All Charts</button>
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_disk_chart' %}'">{% trans 'Disk' %}</button>
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_cpu_chart' %}'">{% trans 'Cpu' %}</button>
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_ram_chart' %}'">{% trans 'Ram' %}</button>
+								<button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'example_chart' %}'">{% trans 'All Charts' %}</button>
 							</div>
 					</div>
 					<!-- ./panel-default -->
@@ -66,14 +67,14 @@
 			  <div class="modal-content">
 			   <div class="modal-header">
 			    <button type="button" class="close" data-dismiss="modal">&times;</button>
-			    <h4 class="modal-title">Delete Example Server</h4>
+			    <h4 class="modal-title">{% trans 'Delete Example Server' %}</h4>
 			   </div>
 			   <div class="modal-body">
-			    <p>Are you sure delete Example Server? </p>
+			    <p>{% trans 'Are you sure delete Example Server?' %} </p>
 			   </div>
 			   <div class="modal-footer">
-			    <button type="button" class="btn btn-danger" id="btnDeleteExampleServer" data-dismiss="modal">I'm Sure</button>
-			    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			    <button type="button" class="btn btn-danger" id="btnDeleteExampleServer" data-dismiss="modal">{% trans 'I am Sure' %}</button>
+			    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
 			   </div>
 			  </div>
 			  <!-- ./modal-content -->
@@ -87,14 +88,14 @@
 			  <div class="modal-content">
 			   <div class="modal-header">
 			    <button type="button" class="close" data-dismiss="modal">&times;</button>
-			    <h4 class="modal-title">Delete Example Server 2</h4>
+			    <h4 class="modal-title">{% trans 'Delete Example Server 2' %}</h4>
 			   </div>
 			   <div class="modal-body">
-			    <p>Are you sure delete Example Server 2? </p>
+			    <p>{% trans 'Are you sure delete Example Server 2?' %} </p>
 			   </div>
 			   <div class="modal-footer">
-			    <button type="button" class="btn btn-danger" id="btnDeleteExampleServer2" data-dismiss="modal">I'm Sure</button>
-			    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			    <button type="button" class="btn btn-danger" id="btnDeleteExampleServer2" data-dismiss="modal">{% trans 'I am Sure' %}</button>
+			    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
 			   </div>
 			  </div>
 			  <!-- ./modal-content -->
@@ -109,20 +110,20 @@
 			  <div class="modal-content">
 			   <div class="modal-header">
 			    <button type="button" class="close" data-dismiss="modal">&times;</button>
-			    <h4 class="modal-title">Update Example Server</h4>
+			    <h4 class="modal-title">{% trans 'Update Example Server' %}</h4>
 			   </div>
 			   <div class="modal-body">
  							<div class="form-group">
  								<input id="exampleServerName" class="form-control" value="Example Server" name="server_name"  type="text" autofocus>
  							</div>
  							<div class="form-group">
-									<textarea id="exampleServerDesc" class="form-control" placeholder="Server Description" name="server_description" rows="8" cols="40">This is example server!</textarea>
+									<textarea id="exampleServerDesc" class="form-control" placeholder="Server Description" name="server_description" rows="8" cols="40">{% trans 'This is example server!' %}</textarea>
  						 </div>
 			   </div>
 				 <!-- ./modal-body -->
 			   <div class="modal-footer">
-					<button type="button" id="btnSaveExampleServer" class="btn btn-success" data-dismiss="modal">Save</button>
-			    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" id="btnSaveExampleServer" class="btn btn-success" data-dismiss="modal">{% trans 'Save' %}</button>
+			    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
 			   </div>
 				 <!-- ./modal-footer -->
 			  </div>
@@ -137,20 +138,20 @@
 			  <div class="modal-content">
 			   <div class="modal-header">
 			    <button type="button" class="close" data-dismiss="modal">&times;</button>
-			    <h4 class="modal-title">Update Example Server 2</h4>
+			    <h4 class="modal-title">{% trans 'Update Example Server 2' %}</h4>
 			   </div>
 			   <div class="modal-body">
  							<div class="form-group">
  								<input id="exampleServer2Name" class="form-control" value="Example Server 2" name="server_name"  type="text" autofocus>
  							</div>
  							<div class="form-group">
-									<textarea id="exampleServer2Desc" class="form-control" placeholder="Server Description" name="server_description" rows="8" cols="40">This is example server 2!</textarea>
+									<textarea id="exampleServer2Desc" class="form-control" placeholder="Server Description" name="server_description" rows="8" cols="40">{% trans 'This is example server 2!' %}</textarea>
  						 </div>
 			   </div>
 				 <!-- ./modal-body -->
 			   <div class="modal-footer">
-					<button type="button" id="btnSaveExampleServer2" class="btn btn-success" data-dismiss="modal">Save</button>
-			    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" id="btnSaveExampleServer2" class="btn btn-success" data-dismiss="modal">{% trans 'Save' %}</button>
+			    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
 			   </div>
 				 <!-- ./modal-footer -->
 			  </div>

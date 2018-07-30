@@ -1,11 +1,12 @@
 {% extends "example/base.html" %}
+{% load i18n %}
 {% block content %}
 	<h1></h1>
 	<form method="POST" class="post-form">{% csrf_token %}
 		<div class="col-lg-4 col-lg-offset-4">
 		<div class="panel panel-default">
 	    <div class="panel-heading">
-	        Create Server
+	        {% trans 'Create Server' %}
 	    </div>
 			<!-- /div class panel-heading -->
 
@@ -19,7 +20,7 @@
 							 <textarea class="form-control" placeholder="Server Description" name="server_description" rows="8" cols="40"></textarea>
 						 </div>
 							<!-- Change this to a button or input when using this as a form -->
-							<button type="submit" class="btn btn-lg btn-success btn-block">Save</button>
+							<button type="submit" class="btn btn-lg btn-success btn-block">{% trans 'Save' %}</button>
 						</fieldset>
 				</div>
 				<!-- /.panel-body -->

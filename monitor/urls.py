@@ -2,7 +2,7 @@ from django.conf.urls import url
 from . import views
 from django.contrib.auth import views as auth_views
 
-urlpatterns = [
+urlpatterns =[
     # Static pages
     url(r'^detail/$', views.detail, name='detail'),
     url(r'^howtosetup/$', views.howtosetup, name='howtosetup'),
@@ -35,11 +35,10 @@ urlpatterns = [
 
 
     # For Development
-    url(r'^dbsave/',views.dbSave, name='dbSave'),
-    url(r'^user$',views.checkUser,name='checkUser'),
-    url(r'^delete/(?P<pk>[0-9]+)/$',views.deleteServer,name='deleteServer'),
-    
-    
-    url(r'^$', views.index, name='index'),
+    url(r'^dbsave/',views.db_save, name='dbSave'),
+    url(r'^user$',views.check_user,name='checkUser'),
+    url(r'^delete/(?P<pk>[0-9]+)/$',views.delete_server,name='deleteServer'),
 
+
+    url(r'^$', views.index, name='index'),
 ]

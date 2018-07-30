@@ -1,47 +1,47 @@
 {% extends 'example/base.html' %}
-
+{% load i18n %}
 {% block content %}
 <h1></h1>
 <div class="row">
   <div id="exampleServer" class="col-lg-12">
     <div class="panel panel-default">
         <div class="panel-heading" style="height:45px">
-          <strong>Example Server 2</strong>
-          <button type="button" class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#delete"><strong>Delete</strong>
+          <strong>{% trans 'Example Server 2' %}</strong>
+          <button type="button" class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#delete"><strong>{% trans 'Delete' %}</strong>
           </button>
-          <button type="button" class="btn btn-primary btn-sm pull-right" style="margin-right:5px;" data-toggle="modal" data-target="#update"><strong>Update</strong>
+          <button type="button" class="btn btn-primary btn-sm pull-right" style="margin-right:5px;" data-toggle="modal" data-target="#update"><strong>{% trans 'Update' %}</strong>
           </button>
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#server" data-toggle="tab">Server Information</a>
+                <li class="active"><a href="#server" data-toggle="tab">{% trans 'Server Information' %}</a>
                 </li>
-                <li><a href="#ram" data-toggle="tab">Ram Information</a>
+                <li><a href="#ram" data-toggle="tab">{% trans 'Ram Information' %}</a>
                 </li>
-                <li><a href="#cpu" data-toggle="tab">Disk Information</a>
+                <li><a href="#cpu" data-toggle="tab">{% trans 'Disk Information' %}</a>
                 </li>
-                <li><a href="#disk" data-toggle="tab">CPU Information</a>
+                <li><a href="#disk" data-toggle="tab">{% trans 'CPU Information' %}</a>
                 </li>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="server">
-                    <h4>This server created at:<small> 10.06.2017</small></h4>
+                    <h4>{% trans 'This server created at:' %}<small> 10.06.2017</small></h4>
                     <p style="word-break: break-all;">
-                      This is example server 2!
+                      {% trans 'This is example server 2!' %}
                     </p>
                 </div>
                 <div class="tab-pane fade" id="ram">
-                    <h4>Total ram values: <small>10</small></h4>
+                    <h4>{% trans 'Total ram values:' %} <small>10</small></h4>
                 </div>
                 <div class="tab-pane fade" id="cpu">
-                    <h4>Total cpu values: <small>10</small></h4>
+                    <h4>{% trans 'Total cpu values:' %} <small>10</small></h4>
                 </div>
                 <div class="tab-pane fade" id="disk">
-                    <h4>Total disk values: <small>10</small></h4>
+                    <h4>{% trans 'Total disk values:' %} <small>10</small></h4>
                 </div>
             </div>
         </div>
@@ -57,14 +57,14 @@
   <div class="modal-content">
    <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title">Delete Example Server 2</h4>
+    <h4 class="modal-title">{% trans 'Delete Example Server 2' %}</h4>
    </div>
    <div class="modal-body">
-    <p>Are you sure delete Example Server 2?</p>
+    <p>{% trans 'Are you sure delete Example Server 2?' %}</p>
    </div>
    <div class="modal-footer">
-    <button id="btnDeleteExampleServer" type="button" class="btn btn-danger" data-dismiss="modal">I'm Sure</button>
-    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button id="btnDeleteExampleServer" type="button" class="btn btn-danger" data-dismiss="modal">{% trans 'I am Sure' %}</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
    </div>
   </div>
   <!-- ./modal-content -->

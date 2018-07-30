@@ -1,8 +1,10 @@
 {% extends "example/base.html" %}
-
+{% load i18n %}
 
 {% block content %}
 <p>
+  {% blocktrans %}
   Dashboard
+  {% endblocktrans %}
 </p>
 {% endblock content %}
