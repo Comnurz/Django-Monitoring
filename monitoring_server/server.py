@@ -3,7 +3,7 @@ import requests
 from time import sleep
 from getpass import getpass
 
-url='http://localhost:8000/dbsave/'
+url='http://localhost:8080/en/dbsave/'
 
 serverid=open('serverid.txt','r+')
 server_id=serverid.read()

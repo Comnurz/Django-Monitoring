@@ -207,7 +207,7 @@ def delete_server(request,pk):
     reversed_ram_values = reversed(ordered_ram_values) --> this command is reversed ram_values
     rams = json_serializer.serialize(reversed_ram_values) --> get json from ram_values
 '''
-def cpu_values(pk):
+def cpuValues(pk):
     json_serializer = serializers.get_serializer("json")()
 
     cpus = json_serializer.serialize(Cpu.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1],  ensure_ascii=False)
@@ -217,7 +217,7 @@ def cpu_values(pk):
     else:
         return cpu_exists
 
-def ram_values(pk):
+def ramValues(pk):
     json_serializer = serializers.get_serializer("json")()
 
     rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1],  ensure_ascii=False)
@@ -227,7 +227,7 @@ def ram_values(pk):
     else:
         return ram_exists
 
-def disk_values(pk):
+def diskValues(pk):
     json_serializer = serializers.get_serializer("json")()
 
     disks = json_serializer.serialize(Disk.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1],  ensure_ascii=False)
@@ -239,7 +239,7 @@ def disk_values(pk):
 
 # chart views here.
 def cpu_chart(request,pk):
-    cpu_values = cpu_values(pk)
+    cpu_values = cpuValues(pk)
     if cpu_values:
         return render(request, 'monitor/cpu_chart.html', {
         'cpuValues': cpu_values,
@@ -248,7 +248,7 @@ def cpu_chart(request,pk):
         return redirect('howtosetup')
 
 def disk_chart(request,pk):
-    disk_values = disk_values(pk)
+    disk_values = diskValues(pk)
     if disk_values:
         return render(request, 'monitor/disk_chart.html', {
         'diskValues': disk_values,
@@ -257,7 +257,7 @@ def disk_chart(request,pk):
         return redirect('howtosetup')
 
 def ram_chart(request,pk):
-    ram_values = ram_values(pk)
+    ram_values = ramValues(pk)
     if ram_values:
         return render(request, 'monitor/ram_chart.html', {
         'ramValues': ram_values,
@@ -266,9 +266,9 @@ def ram_chart(request,pk):
         return redirect('howtosetup')
 
 def chart(request,pk):
-    cpu_values = cpu_values(pk)
-    disk_values = disk_values(pk)
-    ram_values = ram_values(pk)
+    cpu_values = cpuValues(pk)
+    disk_values = diskValues(pk)
+    ram_values = ramValues(pk)
 
     # if expected data is exists, go to the how to setup.
     if ram_values and cpu_values and disk_values:

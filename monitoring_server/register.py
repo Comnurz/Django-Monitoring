@@ -8,7 +8,7 @@ password=getpass("Please Enter Password: ")
 server=input("Please Enter Server Name: ")
 
 # Check User and Server ID
-server_id=requests.get('http://localhost:8000/user',params={
+server_id=requests.get('http://localhost:8080/en/user',params={
 "username":user_name,"password":password,"server_name":server
 })
 
