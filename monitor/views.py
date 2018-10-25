@@ -272,6 +272,7 @@ def diskValues(pk):
 
 # chart views here.
 def cpu_chart(request, pk):
+
     cpu_values = cpuValues(pk)
     if cpu_values:
         return render(request, 'monitor/cpu_chart.html', {
@@ -279,6 +280,7 @@ def cpu_chart(request, pk):
         })
     else:
         return redirect('howtosetup')
+
 
 
 def disk_chart(request, pk):
@@ -289,6 +291,7 @@ def disk_chart(request, pk):
         })
     else:
         return redirect('howtosetup')
+
 
 
 def ram_chart(request, pk):
