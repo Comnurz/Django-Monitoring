@@ -10,7 +10,7 @@ class Server(models.Model):
     id = models.AutoField(primary_key=True)
     server_name = models.CharField(max_length=255)
     server_description = models.TextField()
-    deleted_at=models.DateTimeField(null=True, blank=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
     date = models.DateTimeField(
        default=timezone.now)
 
@@ -33,7 +33,8 @@ class Ram(models.Model):
     # linked server_id. server_id click event "go to <id> server update page"
     def server_link(self):
         return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change",
-                                        args=(self.server_id,)), escape(self.server_id))
+                                        args=(self.server_id,)),
+                                        escape(self.server_id))
 
     server_link.allow_tags = True
     server_link.short_description = "Server ID"
@@ -51,7 +52,8 @@ class Cpu(models.Model):
 
     def server_link(self):
         return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change",
-                                        args=(self.server_id,)), escape(self.server_id))
+                                        args=(self.server_id,)),
+                                        escape(self.server_id))
 
     server_link.allow_tags = True
     server_link.short_description = "Server ID"
@@ -72,7 +74,8 @@ class Disk(models.Model):
 
     def server_link(self):
         return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change",
-                                        args=(self.server_id,)), escape(self.server_id))
+                                        args=(self.server_id,)),
+                                        escape(self.server_id))
 
     server_link.allow_tags = True
     server_link.short_description = "Server ID"

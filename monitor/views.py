@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework.response import Response, HttpResponse
 from django.contrib.auth import login, authenticate
 from monitor.forms import SignUpForm, ServerForm, ServerUpdateForm
 from django.shortcuts import render, redirect
@@ -282,7 +282,6 @@ def cpu_chart(request, pk):
         return redirect('howtosetup')
 
 
-
 def disk_chart(request, pk):
     disk_values = diskValues(pk)
     if disk_values:
@@ -291,7 +290,6 @@ def disk_chart(request, pk):
         })
     else:
         return redirect('howtosetup')
-
 
 
 def ram_chart(request, pk):
@@ -365,7 +363,7 @@ def signup(request):
 
 
 # Pairing server and user from create server page
-def serverUser(serverobj,userobj):
+def serverUser(serverobj, userobj):
     server_user = Server_User()
     su = server_user.save()  # Create empty Server_User object for relationship
     server_user.user_id.add(userobj)
