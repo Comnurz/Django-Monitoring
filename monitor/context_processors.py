@@ -3,7 +3,7 @@ from monitor.models import Server, ServerUser
 
 def server(request):
     current_user = request.user
-    server_userobj = ServerUser.objects.filter(user_id=current_user.id).exists() # check server user pairing
+    server_userobj = ServerUser.objects.filter(user_id=current_user.id).exists()  # check server user pairing
     if server_userobj:
         servers = []
         # select * from Server_User where user_id=current_user.id

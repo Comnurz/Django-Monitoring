@@ -17,6 +17,7 @@ def setlanguage(request):
     return render(request, 'set-language.html', {'LANGUAGES': settings.LANGUAGES,
                                                  'SELECTEDLANG': request.LANGUAGE_CODE})
 
+
 @api_view(['POST', 'OPTIONS'])
 def db_save(request):
     # Get request data
@@ -33,39 +34,43 @@ def db_save(request):
 
 
 def ram_save(detail, server):
-    server = Server.objects.get(id=server)  # get Server objects which id=server
+    # get Server objects which id=server
+    server = Server.objects.get(id=server)
     last_ram_value = Ram.objects.filter(server_id=server).last()
     if last_ram_value is not None:
-        if int(detail[1]) > 2*(last_ram_value.used) or float(detail[3] > 90.0):
-            server_user = ServerUser.objects.filter(server_id=server).values_list('user_id', flat=True)
+        if int(detail[1]) > 2*(last_ram_value.used):
+            server_user = Server_User.objects.filter(server_id=server).values_list('user_id', flat=True)
             user = User.objects.get(id=server_user)
-            send_mail(user.email)
-    ram = Ram(total=detail[0], used=detail[1], free=detail[2], percent=float(detail[3]), sin=detail[4], sout=detail[5],
+            mail_send(user.email)
+    ram = Ram(total=detail[0], used=detail[1], free=detail[2],
+              percent=float(detail[3]), sin=detail[4], sout=detail[5],
               server_id=server)  # save data to ram
     ram.save()
 
 
 def cpu_save(detail, server):
-    server = Server.objects.get(id=server)  # get Server objects which id=server
+    # get Server objects which id=server
+    server = Server.objects.get(id=server)
     last_cpu_value = Cpu.objects.filter(server_id=server).last()
     if last_cpu_value is not None:
-        if int(detail[1]) > 2*(last_cpu_value.percent) or float(detail[0]) > 90.0:
-            server_user = ServerUser.objects.filter(server_id=server).values_list('user_id', flat=True)
+        if int(detail[1]) > 2*(last_cpu_value.percent):
+            server_user = Server_User.objects.filter(server_id=server).values_list('user_id', flat=True)
             user = User.objects.get(id=server_user)
-            send_mail(user.email)
+            mail_send(user.email)
 
     cpu = Cpu(percent=float(detail[0]), server_id=server)  # save data to cpu
     cpu.save()
 
 
 def disk_save(detail, server):
-    server = Server.objects.get(id=server)  # get Server objects which id=server
+    # get Server objects which id=server
+    server = Server.objects.get(id=server)
     last_disk_value = Disk.objects.filter(server_id=server).last()
     if last_disk_value is not None:
-        if int(detail[1]) > 2*(last_disk_value.used) or float(detail[3]) > 90.0:
-            server_user = ServerUser.objects.filter(server_id=server).values_list('user_id', flat=True)
+        if int(detail[1]) > 2*(last_disk_value.used):
+            server_user = Server_User.objects.filter(server_id=server).values_list('user_id', flat=True)
             user = User.objects.get(id=server_user)
-            send_mail(user.email)
+            mail_send(user.email)
 
     # save data to disk
     disk = Disk(total=detail[0], used=detail[1], free=detail[2], percent=float(detail[3]), server_id=server)
@@ -74,6 +79,14 @@ def disk_save(detail, server):
 
 def send_mail(email):
     send_mail("Information", "Subject", "yourmailaddress", [email], fail_silently=True)
+    disk = Disk(total=detail[0], used=detail[1], free=detail[2],
+                percent=float(detail[3]), server_id=server)  # save data to disk
+    disk.save()
+
+
+def mail_send(email):
+    send_mail("Information", "Subject", "yourmailaddress", [email],
+              fail_silently=True)
 
 
 # Create your views here.
@@ -133,7 +146,8 @@ def server_detail(request, pk):
     current_user = request.user
 
     # check server user pairing
-    server_userobj = ServerUser.objects.filter(user_id=current_user.id, server_id=pk).exists()
+    server_userobj = Server_User.objects.filter(user_id=current_user.id,
+                                                server_id=pk).exists()
     if server_userobj:
         server = Server.objects.get(id=pk)  # get server
         if request.method == 'POST':
@@ -147,7 +161,6 @@ def server_detail(request, pk):
                 # Server Update
                 server = Server.objects.filter(id=server_id).update(server_name=server_name,
                                                                     server_description=server_description)
-
                 return redirect('server_detail', pk=server_id)
         else:
             form = ServerUpdateForm()
@@ -156,7 +169,7 @@ def server_detail(request, pk):
             ram_values = Ram.objects.filter(server_id=pk)
             cpu_values = Cpu.objects.filter(server_id=pk)
             disk_values = Disk.objects.filter(server_id=pk)
-        except:
+        except(Ram.DoesNotExist, Cpu.DoesNotExist, Disk.DoesNotExist):
             ram_values = None
             cpu_values = None
             disk_values = None
@@ -184,11 +197,13 @@ def detail(request):
             server_description = form.cleaned_data.get('server_description')
 
             # check server user pairing
-            server_userobj = ServerUser.objects.filter(user_id=current_user.id, server_id=server_id).exists()
+            server_userobj = Server_User.objects.filter(
+                             user_id=current_user.id,
+                             server_id=server_id).exists()
             if server_userobj:
-                # Server Update
-                server = Server.objects.filter(id=server_id).update(server_name=server_name,
-                                                                    server_description=server_description)
+                server = Server.objects.filter(id=server_id).update(
+                        server_name=server_name,
+                        server_description=server_description)  # Server Update
             else:
                 pass
 
@@ -201,29 +216,35 @@ def detail(request):
     for i in range(len(server)):
         servers.append(Server.objects.get(id=server[i]))
 
-    return render(request, 'monitor/detail.html', {'form': form, 'servers': servers})
+    return render(request, 'monitor/detail.html',
+                  {'form': form, 'servers': servers})
 
 
 def delete_server(request, pk):
     current_user = request.user
 
     # check server user pairing
-    server_userobj = ServerUser.objects.filter(user_id=current_user.id, server_id=pk).exists()
+    server_userobj = Server_User.objects.filter(user_id=current_user.id,
+                                                server_id=pk).exists()
     if server_userobj:
-        server = Server.objects.filter(id=pk).update(deleted_at=timezone.now())  # Update Server
-
+        # Update Server
+        server = Server.objects.filter(id=pk).update(deleted_at=timezone.now())
     return redirect('detail')
 
 
 # get Values from database.
 '''
-    mysql command is : "select * from Ram where server_id=pk orderby id desc 28"
+    mysql command is: "select * from Ram where server_id=pk orderby id desc 28"
     or this command be like this:
     ram_values = Ram.objects.all() --> get all ram objects
-    filtered_ram_values = ram_values.filter(server_id=pk) --> ram_values filter by server_id
-    ordered_ram_values = filtered_ram_values.order_by('-id')[:28] --> get ram_values last 28 item
-    reversed_ram_values = reversed(ordered_ram_values) --> this command is reversed ram_values
-    rams = json_serializer.serialize(reversed_ram_values) --> get json from ram_values
+    filtered_ram_values = ram_values.filter(server_id=pk) -->
+                          ram_values filter by server_id
+    ordered_ram_values = filtered_ram_values.order_by('-id')[:28] -->
+                         get ram_values last 28 item
+    reversed_ram_values = reversed(ordered_ram_values) -->
+                          this command is reversed ram_values
+    rams = json_serializer.serialize(reversed_ram_values) -->
+            get json from ram_values
 '''
 
 
@@ -239,7 +260,7 @@ def cpu_values(pk):
         return cpu_exists
 
 
-def ram_values(pk):
+def ramValues(pk):
     json_serializer = serializers.get_serializer("json")()
 
     rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1],
@@ -251,7 +272,7 @@ def ram_values(pk):
         return ram_exists
 
 
-def disk_values(pk):
+def diskValues(pk):
     json_serializer = serializers.get_serializer("json")()
 
     disks = json_serializer.serialize(Disk.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1],
@@ -265,7 +286,7 @@ def disk_values(pk):
 
 # chart views here.
 def cpu_chart(request, pk):
-    cpu_values = cpu_values(pk)
+    cpu_values = cpuValues(pk)
     if cpu_values:
         return render(request, 'monitor/cpu_chart.html', {
             'cpuValues': cpu_values,
@@ -275,7 +296,7 @@ def cpu_chart(request, pk):
 
 
 def disk_chart(request, pk):
-    disk_values = disk_values(pk)
+    disk_values = diskValues(pk)
     if disk_values:
         return render(request, 'monitor/disk_chart.html', {
             'diskValues': disk_values,
@@ -285,7 +306,7 @@ def disk_chart(request, pk):
 
 
 def ram_chart(request, pk):
-    ram_values = ram_values(pk)
+    ram_values = ramValues(pk)
     if ram_values:
         return render(request, 'monitor/ram_chart.html', {
             'ramValues': ram_values,
@@ -295,9 +316,9 @@ def ram_chart(request, pk):
 
 
 def chart(request, pk):
-    cpu_values = cpu_values(pk)
-    disk_values = disk_values(pk)
-    ram_values = ram_values(pk)
+    cpu_values = cpuValues(pk)
+    disk_values = diskValues(pk)
+    ram_values = ramValues(pk)
 
     # if expected data is exists, go to the how to setup.
     if ram_values and cpu_values and disk_values:
@@ -369,17 +390,22 @@ def check_user(request):
     user = request.GET.get('username')
     pw = request.GET.get('password')
     server_name = request.GET.get('server_name')
-    userisexist = User.objects.filter(username=user).exists()  # User exits control.
+    # User exits control.
+    userisexist = User.objects.filter(username=user).exists()
     if userisexist:
-        current_user = User.objects.get(username=user)  # get user from database by filtering username
+        # get user from database by filtering username
+        current_user = User.objects.get(username=user)
         serverisexist = Server.objects.filter(server_name=server_name).filter()
         if serverisexist:
             # get server from database by filtering server_name
             current_server = Server.objects.get(server_name=server_name)
-            is_pw = current_user.check_password(pw)  # check user password
+            # check user password
+            is_pw = current_user.check_password(pw)
             if is_pw:
                 # check server user pairing
-                server_userobj = ServerUser.objects.filter(server_id=current_server.id, user_id=current_user.id).exists()
+                server_userobj = Server_User.objects.filter(
+                                server_id=current_server.id,
+                                user_id=current_user.id).exists()
                 if server_userobj:
                     return Response(current_server.id)
                 return HttpResponse(status=404)

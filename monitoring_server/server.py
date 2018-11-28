@@ -1,19 +1,24 @@
 import psutil
 import requests
 from time import sleep
-from getpass import getpass
 
-url='http://localhost:8000/dbsave/'
+url = 'http://localhost:8080/en/dbsave/'
 
-serverid=open('serverid.txt','r+')
-server_id=serverid.read()
+serverid = open('serverid.txt', 'r+')
+server_id = serverid.read()
 
 while True:
-    ramdata=psutil.swap_memory() # expected output: total:xxxxxx used:xxxxxx free:xxxxxx percent:xxxxxx sin:xxxxxx sout:xxxxxx
+    # expected output: total:xxxxxx used:xxxxxx free:xxxxxx
+    # percent:xxxxxx sin:xxxxxx sout:xxxxxx
+    ramdata = psutil.swap_memory()
 
-    cpudata=psutil.cpu_percent(interval=1) # expected output: percent:xxxxxx
+    # expected output: percent:xxxxxx
+    cpudata = psutil.cpu_percent(interval=1)
 
-    diskdata=psutil.disk_usage('/')# expected output: total: xxxxxx used:xxxxxx free:xxxxxx percent:xxxxxx
+    # expected output: total: xxxxxx used:xxxxxx free:xxxxxx percent:xxxxxx
+    diskdata = psutil.disk_usage('/')
 
-    requests.post(url,params={"ram":ramdata,"cpu":cpudata,"disk":diskdata,"server":server_id} )    # Data post
+    # Data post
+    requests.post(url, params={"ram": ramdata, "cpu": cpudata,
+                  "disk": diskdata, "server": server_id})
     sleep(60)

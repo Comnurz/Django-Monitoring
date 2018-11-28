@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
 
-from django.template.defaultfilters import escape
 from django.urls import reverse
 
 
@@ -10,7 +8,7 @@ class Server(models.Model):
     id = models.AutoField(primary_key=True)
     server_name = models.CharField(max_length=255)
     server_description = models.TextField()
-    deleted_at=models.DateTimeField(null=True, blank=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
     date = models.DateTimeField(
        default=timezone.now)
 
@@ -32,7 +30,8 @@ class Ram(models.Model):
 
     # linked server_id. server_id click event "go to <id> server update page"
     def server_link(self):
-        return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change", args=(self.server_id,)),
+        return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change",
+                                        args=(self.server_id,)),
                                         escape(self.server_id))
 
     server_link.allow_tags = True
@@ -50,7 +49,8 @@ class Cpu(models.Model):
            default=timezone.now)
 
     def server_link(self):
-        return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change", args=(self.server_id,)),
+        return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change",
+                                        args=(self.server_id,)),
                                         escape(self.server_id))
 
     server_link.allow_tags = True
@@ -71,7 +71,8 @@ class Disk(models.Model):
            default=timezone.now)
 
     def server_link(self):
-        return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change", args=(self.server_id,)),
+        return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change",
+                                        args=(self.server_id,)),
                                         escape(self.server_id))
 
     server_link.allow_tags = True

@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from .models import Ram, Cpu, Disk, Server, ServerUser
 
 
@@ -18,7 +17,8 @@ class CpuInline(admin.TabularInline):
 
 # Display your models details here.
 class RamAdmin(admin.ModelAdmin):
-    list_display = ('total', 'used', 'free', 'percent', 'sin', 'sout', 'date', 'server_link')
+    list_display = ('total', 'used', 'free', 'percent', 'sin', 'sout', 'date',
+                    'server_link')
 
 
 class CpuAdmin(admin.ModelAdmin):
