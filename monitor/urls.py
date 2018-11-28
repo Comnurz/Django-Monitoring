@@ -12,7 +12,7 @@ urlpatterns =[
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^signup/$', views.signup, name='signup'),
-    url(r'^server/$',views.server,name='server'),
+    url(r'^server/$', views.server,name='server'),
 
     # Detail pages
     url(r'^serverdetail/(?P<pk>[0-9]+)/$', views.server_detail, name='server_detail'),
@@ -35,9 +35,9 @@ urlpatterns =[
 
 
     # For Development
-    url(r'^dbsave/',views.db_save, name='dbSave'),
-    url(r'^user$',views.check_user,name='checkUser'),
-    url(r'^delete/(?P<pk>[0-9]+)/$',views.delete_server,name='deleteServer'),
+    url(r'^dbsave/', views.db_save, name='dbSave'),
+    url(r'^user$', views.check_user, name='checkUser'),
+    url(r'^delete/(?P<pk>[0-9]+)/$', views.delete_server, name='deleteServer'),
 
 
     url(r'^$', views.index, name='index'),
