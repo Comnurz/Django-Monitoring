@@ -77,13 +77,6 @@ def disk_save(detail, server):
     disk.save()
 
 
-def send_mail(email):
-    send_mail("Information", "Subject", "yourmailaddress", [email], fail_silently=True)
-    disk = Disk(total=detail[0], used=detail[1], free=detail[2],
-                percent=float(detail[3]), server_id=server)  # save data to disk
-    disk.save()
-
-
 def mail_send(email):
     send_mail("Information", "Subject", "yourmailaddress", [email],
               fail_silently=True)
@@ -248,7 +241,7 @@ def delete_server(request, pk):
 '''
 
 
-def cpu_values(pk):
+def cpuValues(pk):
     json_serializer = serializers.get_serializer("json")()
 
     cpus = json_serializer.serialize(Cpu.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1],
