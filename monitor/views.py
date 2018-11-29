@@ -8,6 +8,7 @@ from django.core import serializers
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.models import User
+from typing import List
 
 from monitor.forms import SignUpForm, ServerForm, ServerUpdateForm
 from monitor.models import Ram, Cpu, Disk, Server, ServerUser
@@ -21,10 +22,10 @@ def setlanguage(request):
 @api_view(['POST', 'OPTIONS'])
 def db_save(request):
     # Get request data
-    ram = request.GET.getlist('ram', '')
-    cpu = request.GET.getlist('cpu', '')
-    disk = request.GET.getlist('disk', '')
-    server = request.GET.get('server', '')
+    ram: List[str] = request.GET.getlist('ram', '')
+    cpu: List[str] = request.GET.getlist('cpu', '')
+    disk: List[str] = request.GET.getlist('disk', '')
+    server: str = request.GET.get('server', '')
     # Save given data
     ram_save(ram, server)
     cpu_save(cpu, server)
@@ -33,7 +34,7 @@ def db_save(request):
     return Response(True)
 
 
-def ram_save(detail, server):
+def ram_save(detail: List[str], server: str):
     # get Server objects which id=server
     server = Server.objects.get(id=server)
     last_ram_value = Ram.objects.filter(server_id=server).last()
@@ -48,7 +49,7 @@ def ram_save(detail, server):
     ram.save()
 
 
-def cpu_save(detail, server):
+def cpu_save(detail: List[str], server: str):
     # get Server objects which id=server
     server = Server.objects.get(id=server)
     last_cpu_value = Cpu.objects.filter(server_id=server).last()
@@ -62,7 +63,7 @@ def cpu_save(detail, server):
     cpu.save()
 
 
-def disk_save(detail, server):
+def disk_save(detail: List[str], server: str):
     # get Server objects which id=server
     server = Server.objects.get(id=server)
     last_disk_value = Disk.objects.filter(server_id=server).last()
@@ -77,7 +78,7 @@ def disk_save(detail, server):
     disk.save()
 
 
-def mail_send(email):
+def mail_send(email: str):
     send_mail("Information", "Subject", "yourmailaddress", [email],
               fail_silently=True)
 
@@ -135,9 +136,9 @@ def dashboard(request):
     return render(request, 'monitor/dashboard.html')
 
 
-def server_detail(request, pk):
+def server_detail(request, pk: str):
     current_user = request.user
-
+    import pdb
     # check server user pairing
     server_userobj = ServerUser.objects.filter(user_id=current_user.id,
                                                 server_id=pk).exists()
@@ -147,9 +148,9 @@ def server_detail(request, pk):
             form = ServerUpdateForm(request.POST)
             if form.is_valid():
                 # Get form data
-                server_name = form.cleaned_data.get('server_name')
-                server_id = form.cleaned_data.get('server_id')
-                server_description = form.cleaned_data.get('server_description')
+                server_name: str = form.cleaned_data.get('server_name')
+                server_id: int = form.cleaned_data.get('server_id')
+                server_description: str = form.cleaned_data.get('server_description')
 
                 # Server Update
                 server = Server.objects.filter(id=server_id).update(server_name=server_name,
@@ -185,9 +186,9 @@ def detail(request):
         form = ServerUpdateForm(request.POST)
         if form.is_valid():
             # Get form data
-            server_name = form.cleaned_data.get('server_name')
-            server_id = form.cleaned_data.get('server_id')
-            server_description = form.cleaned_data.get('server_description')
+            server_name: str = form.cleaned_data.get('server_name')
+            server_id: int = form.cleaned_data.get('server_id')
+            server_description: str = form.cleaned_data.get('server_description')
 
             # check server user pairing
             server_userobj = ServerUser.objects.filter(
@@ -208,12 +209,12 @@ def detail(request):
     server = ServerUser.objects.filter(user_id=current_user.id).values_list('server_id', flat=True)
     for i in range(len(server)):
         servers.append(Server.objects.get(id=server[i]))
-
+    import pdb; pdb.set_trace()
     return render(request, 'monitor/detail.html',
                   {'form': form, 'servers': servers})
 
 
-def delete_server(request, pk):
+def delete_server(request, pk: str):
     current_user = request.user
 
     # check server user pairing
@@ -241,7 +242,7 @@ def delete_server(request, pk):
 '''
 
 
-def cpuValues(pk):
+def cpuValues(pk: str):
     json_serializer = serializers.get_serializer("json")()
 
     cpus = json_serializer.serialize(Cpu.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1],
@@ -253,7 +254,7 @@ def cpuValues(pk):
         return cpu_exists
 
 
-def ramValues(pk):
+def ramValues(pk: str):
     json_serializer = serializers.get_serializer("json")()
 
     rams = json_serializer.serialize(Ram.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1],
@@ -265,7 +266,7 @@ def ramValues(pk):
         return ram_exists
 
 
-def diskValues(pk):
+def diskValues(pk: str):
     json_serializer = serializers.get_serializer("json")()
 
     disks = json_serializer.serialize(Disk.objects.all().filter(server_id=pk).order_by('-id')[:28][::-1],
@@ -278,7 +279,7 @@ def diskValues(pk):
 
 
 # chart views here.
-def cpu_chart(request, pk):
+def cpu_chart(request, pk: str):
     cpu_values = cpuValues(pk)
     if cpu_values:
         return render(request, 'monitor/cpu_chart.html', {
@@ -288,7 +289,7 @@ def cpu_chart(request, pk):
         return redirect('howtosetup')
 
 
-def disk_chart(request, pk):
+def disk_chart(request, pk: str):
     disk_values = diskValues(pk)
     if disk_values:
         return render(request, 'monitor/disk_chart.html', {
@@ -298,7 +299,7 @@ def disk_chart(request, pk):
         return redirect('howtosetup')
 
 
-def ram_chart(request, pk):
+def ram_chart(request, pk: str):
     ram_values = ramValues(pk)
     if ram_values:
         return render(request, 'monitor/ram_chart.html', {
@@ -308,7 +309,7 @@ def ram_chart(request, pk):
         return redirect('howtosetup')
 
 
-def chart(request, pk):
+def chart(request, pk: str):
     cpu_values = cpuValues(pk)
     disk_values = diskValues(pk)
     ram_values = ramValues(pk)
@@ -330,7 +331,7 @@ def server(request):
         if request.method == 'POST':
             form = ServerForm(request.POST)
             if form.is_valid():
-                server_name = form.cleaned_data.get('server_name')
+                server_name: str = form.cleaned_data.get('server_name')
                 current_user = request.user
                 server = ServerUser.objects.filter(user_id=current_user.id).values_list('server_id', flat=True)
                 for i in range(len(server)):
@@ -358,8 +359,8 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
+            username: str = form.cleaned_data.get('username')
+            raw_password: str = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return redirect('server')
@@ -380,9 +381,9 @@ def serverUser(serverobj, userobj):
 # Check user and server for pairing to server
 @api_view(['GET'])
 def check_user(request):
-    user = request.GET.get('username')
-    pw = request.GET.get('password')
-    server_name = request.GET.get('server_name')
+    user: str = request.GET.get('username')
+    pw: str = request.GET.get('password')
+    server_name: str = request.GET.get('server_name')
     # User exits control.
     userisexist = User.objects.filter(username=user).exists()
     if userisexist:

@@ -3,9 +3,9 @@ import subprocess
 from getpass import getpass
 
 # get data from user for check
-user_name = input("Please Enter Username: ")
-password = getpass("Please Enter Password: ")
-server = input("Please Enter Server Name: ")
+user_name: str = input("Please Enter Username: ")
+password: str = getpass("Please Enter Password: ")
+server: str = input("Please Enter Server Name: ")
 
 # Check User and Server ID
 server_id = requests.get("http://localhost:8000/en/user", params={
