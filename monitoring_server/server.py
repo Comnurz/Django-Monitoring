@@ -2,7 +2,7 @@ import psutil
 import requests
 from time import sleep
 
-url = 'http://localhost:8080/en/dbsave/'
+url = 'http://localhost:8000/en/dbsave/'
 
 serverid = open('serverid.txt', 'r+')
 server_id = serverid.read()

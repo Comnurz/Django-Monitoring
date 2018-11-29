@@ -8,18 +8,18 @@ password = getpass("Please Enter Password: ")
 server = input("Please Enter Server Name: ")
 
 # Check User and Server ID
-server_id = requests.get('http://localhost:8080/en/user', params={
+server_id = requests.get("http://localhost:8000/en/user", params={
             "username": user_name, "password": password, "server_name": server
         })
 
-server_id = str(server_id.content).replace('b', "")
-server_id = server_id.replace('\'', "")
+server_id = str(server_id.content).replace("b", "")
+server_id = server_id.replace("\'", "")
 
 if server_id:
-    print ("Success.")
-    serverid = open('serverid.txt', 'r+')
+    print("Success.")
+    serverid = open("serverid.txt", "w+")
     serverid.write(server_id)
     serverid.close()
-    subprocess.call("./server.sh", shell=True)
+    subprocess.call("nohup python3 server.py &", shell=True)
 else:
-    print ("Wrong given data!")
+    print("Wrong given data!")

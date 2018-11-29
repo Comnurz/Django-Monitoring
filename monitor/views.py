@@ -39,7 +39,7 @@ def ram_save(detail, server):
     last_ram_value = Ram.objects.filter(server_id=server).last()
     if last_ram_value is not None:
         if int(detail[1]) > 2*(last_ram_value.used):
-            server_user = Server_User.objects.filter(server_id=server).values_list('user_id', flat=True)
+            server_user = ServerUser.objects.filter(server_id=server).values_list('user_id', flat=True)
             user = User.objects.get(id=server_user)
             mail_send(user.email)
     ram = Ram(total=detail[0], used=detail[1], free=detail[2],
@@ -68,7 +68,7 @@ def disk_save(detail, server):
     last_disk_value = Disk.objects.filter(server_id=server).last()
     if last_disk_value is not None:
         if int(detail[1]) > 2*(last_disk_value.used):
-            server_user = Server_User.objects.filter(server_id=server).values_list('user_id', flat=True)
+            server_user = ServerUser.objects.filter(server_id=server).values_list('user_id', flat=True)
             user = User.objects.get(id=server_user)
             mail_send(user.email)
 
@@ -146,7 +146,7 @@ def server_detail(request, pk):
     current_user = request.user
 
     # check server user pairing
-    server_userobj = Server_User.objects.filter(user_id=current_user.id,
+    server_userobj = ServerUser.objects.filter(user_id=current_user.id,
                                                 server_id=pk).exists()
     if server_userobj:
         server = Server.objects.get(id=pk)  # get server
@@ -197,7 +197,7 @@ def detail(request):
             server_description = form.cleaned_data.get('server_description')
 
             # check server user pairing
-            server_userobj = Server_User.objects.filter(
+            server_userobj = ServerUser.objects.filter(
                              user_id=current_user.id,
                              server_id=server_id).exists()
             if server_userobj:
@@ -224,7 +224,7 @@ def delete_server(request, pk):
     current_user = request.user
 
     # check server user pairing
-    server_userobj = Server_User.objects.filter(user_id=current_user.id,
+    server_userobj = ServerUser.objects.filter(user_id=current_user.id,
                                                 server_id=pk).exists()
     if server_userobj:
         # Update Server
@@ -403,7 +403,7 @@ def check_user(request):
             is_pw = current_user.check_password(pw)
             if is_pw:
                 # check server user pairing
-                server_userobj = Server_User.objects.filter(
+                server_userobj = ServerUser.objects.filter(
                                 server_id=current_server.id,
                                 user_id=current_user.id).exists()
                 if server_userobj:
