@@ -9,8 +9,8 @@ urlpatterns = [
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
 
     # Form pages
-    url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^login/$', auth_views.LoginView, name='login'),
+    url(r'^logout/$', auth_views.LogoutView, name='logout'),
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^server/$', views.server, name='server'),
 
