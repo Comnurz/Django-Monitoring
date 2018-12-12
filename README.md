@@ -1,5 +1,6 @@
 # Django-Monitoring
 Django monitoring web application
+This project run on the Python3.7
 
 server.py run on your server which want to get data.
 
