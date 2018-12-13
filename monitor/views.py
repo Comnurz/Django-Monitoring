@@ -138,7 +138,6 @@ def dashboard(request):
 
 def server_detail(request, pk: str):
     current_user = request.user
-    import pdb
     # check server user pairing
     server_userobj = ServerUser.objects.filter(user_id=current_user.id,
                                                 server_id=pk).exists()
@@ -209,7 +208,6 @@ def detail(request):
     server = ServerUser.objects.filter(user_id=current_user.id).values_list('server_id', flat=True)
     for i in range(len(server)):
         servers.append(Server.objects.get(id=server[i]))
-    import pdb; pdb.set_trace()
     return render(request, 'monitor/detail.html',
                   {'form': form, 'servers': servers})
 
