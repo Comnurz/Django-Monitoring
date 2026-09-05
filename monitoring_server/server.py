@@ -1,11 +1,16 @@
+import os
+
 import psutil
 import requests
 from time import sleep
 
-url = 'http://localhost:8000/en/dbsave/'
+BASE_URL = os.environ.get("MONITORING_URL", "http://localhost:8000/en")
+DBSAVE_URL = BASE_URL.rstrip('/') + '/api/dbsave/'
 
-serverid = open('serverid.txt', 'r+')
-server_id = serverid.read()
+with open('servertoken.txt', 'r') as f:
+    token = f.read().strip()
+
+headers = {"Authorization": "Token " + token}
 
 while True:
     # expected output: total:xxxxxx used:xxxxxx free:xxxxxx
@@ -18,7 +23,10 @@ while True:
     # expected output: total: xxxxxx used:xxxxxx free:xxxxxx percent:xxxxxx
     diskdata = psutil.disk_usage('/')
 
-    # Data post
-    requests.post(url, params={"ram": ramdata, "cpu": cpudata,
-                  "disk": diskdata, "server": server_id})
+    payload = {
+        "ram": list(ramdata),
+        "cpu": [cpudata],
+        "disk": list(diskdata),
+    }
+    requests.post(DBSAVE_URL, json=payload, headers=headers, timeout=10)
     sleep(60)

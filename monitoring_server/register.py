@@ -1,25 +1,29 @@
-import requests
+import os
+import sys
 import subprocess
 from getpass import getpass
 
-# get data from user for check
+import requests
+
+BASE_URL = os.environ.get("MONITORING_URL", "http://localhost:8000/en")
+REGISTER_URL = BASE_URL.rstrip('/') + '/api/register/'
+
 user_name: str = input("Please Enter Username: ")
 password: str = getpass("Please Enter Password: ")
 server: str = input("Please Enter Server Name: ")
 
-# Check User and Server ID
-server_id = requests.get("http://localhost:8000/en/user", params={
-            "username": user_name, "password": password, "server_name": server
-        })
+response = requests.post(REGISTER_URL, json={
+    "username": user_name,
+    "password": password,
+    "server_name": server,
+}, timeout=10)
 
-server_id = str(server_id.content).replace("b", "")
-server_id = server_id.replace("\'", "")
-
-if server_id:
+if response.status_code == 200 and response.json().get("token"):
+    token = response.json()["token"]
     print("Success.")
-    serverid = open("serverid.txt", "w+")
-    serverid.write(server_id)
-    serverid.close()
-    subprocess.call("nohup python3 server.py &", shell=True)
+    fd = os.open("servertoken.txt", os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    with os.fdopen(fd, "w") as tokenfile:
+        tokenfile.write(token)
+    subprocess.Popen([sys.executable, "server.py"])
 else:
     print("Wrong given data!")

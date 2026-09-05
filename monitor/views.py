@@ -1,5 +1,8 @@
-from django.http import request, JsonResponse, HttpResponse
-from rest_framework.decorators import api_view
+import secrets
+
+from django.http import HttpResponse
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect, get_object_or_404
@@ -11,7 +14,7 @@ from django.contrib.auth.models import User
 from typing import List
 
 from monitor.forms import SignUpForm, ServerForm, ServerUpdateForm
-from monitor.models import Ram, Cpu, Disk, Server, ServerUser
+from monitor.models import Ram, Cpu, Disk, Server, ServerUser, ServerToken
 
 
 def setlanguage(request):
@@ -20,13 +23,15 @@ def setlanguage(request):
 
 
 @api_view(['POST', 'OPTIONS'])
+@permission_classes([AllowAny])
 def db_save(request):
-    # Get request data
-    ram: List[str] = request.GET.getlist('ram', '')
-    cpu: List[str] = request.GET.getlist('cpu', '')
-    disk: List[str] = request.GET.getlist('disk', '')
-    server: str = request.GET.get('server', '')
-    # Save given data
+    server = request.auth
+    if server is None:
+        return Response({'detail': 'Authentication credentials were not provided.'},
+                        status=401)
+    ram: List[str] = request.data.get('ram', '')
+    cpu: List[str] = request.data.get('cpu', '')
+    disk: List[str] = request.data.get('disk', '')
     ram_save(ram, server)
     cpu_save(cpu, server)
     disk_save(disk, server)
@@ -34,9 +39,7 @@ def db_save(request):
     return Response(True)
 
 
-def ram_save(detail: List[str], server: str):
-    # get Server objects which id=server
-    server = Server.objects.get(id=server)
+def ram_save(detail: List[str], server):
     last_ram_value = Ram.objects.filter(server_id=server).last()
     if last_ram_value is not None:
         if int(detail[1]) > 2*(last_ram_value.used):
@@ -45,27 +48,23 @@ def ram_save(detail: List[str], server: str):
             mail_send(user.email)
     ram = Ram(total=detail[0], used=detail[1], free=detail[2],
               percent=float(detail[3]), sin=detail[4], sout=detail[5],
-              server_id=server)  # save data to ram
+              server_id=server)
     ram.save()
 
 
-def cpu_save(detail: List[str], server: str):
-    # get Server objects which id=server
-    server = Server.objects.get(id=server)
+def cpu_save(detail: List[str], server):
     last_cpu_value = Cpu.objects.filter(server_id=server).last()
     if last_cpu_value is not None:
         if int(detail[1]) > 2*(last_cpu_value.percent):
-            server_user = Server_User.objects.filter(server_id=server).values_list('user_id', flat=True)
+            server_user = ServerUser.objects.filter(server_id=server).values_list('user_id', flat=True)
             user = User.objects.get(id=server_user)
             mail_send(user.email)
 
-    cpu = Cpu(percent=float(detail[0]), server_id=server)  # save data to cpu
+    cpu = Cpu(percent=float(detail[0]), server_id=server)
     cpu.save()
 
 
-def disk_save(detail: List[str], server: str):
-    # get Server objects which id=server
-    server = Server.objects.get(id=server)
+def disk_save(detail: List[str], server):
     last_disk_value = Disk.objects.filter(server_id=server).last()
     if last_disk_value is not None:
         if int(detail[1]) > 2*(last_disk_value.used):
@@ -73,7 +72,6 @@ def disk_save(detail: List[str], server: str):
             user = User.objects.get(id=server_user)
             mail_send(user.email)
 
-    # save data to disk
     disk = Disk(total=detail[0], used=detail[1], free=detail[2], percent=float(detail[3]), server_id=server)
     disk.save()
 
@@ -376,31 +374,32 @@ def serverUser(serverobj, userobj):
     server_user.save()
 
 
-# Check user and server for pairing to server
-@api_view(['GET'])
-def check_user(request):
-    user: str = request.GET.get('username')
-    pw: str = request.GET.get('password')
-    server_name: str = request.GET.get('server_name')
-    # User exits control.
-    userisexist = User.objects.filter(username=user).exists()
-    if userisexist:
-        # get user from database by filtering username
-        current_user = User.objects.get(username=user)
-        serverisexist = Server.objects.filter(server_name=server_name).filter()
-        if serverisexist:
-            # get server from database by filtering server_name
-            current_server = Server.objects.get(server_name=server_name)
-            # check user password
-            is_pw = current_user.check_password(pw)
-            if is_pw:
-                # check server user pairing
-                server_userobj = ServerUser.objects.filter(
-                                server_id=current_server.id,
-                                user_id=current_user.id).exists()
-                if server_userobj:
-                    return Response(current_server.id)
-                return HttpResponse(status=404)
-            return HttpResponse(status=404)
+# Exchange username/password for a per-server token (server agent registration).
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def register_token(request):
+    username: str = request.data.get('username')
+    password: str = request.data.get('password')
+    server_name: str = request.data.get('server_name')
+    if not (username and password and server_name):
+        return Response({'detail': 'username, password and server_name are required.'},
+                        status=400)
+    userisexist = User.objects.filter(username=username).exists()
+    if not userisexist:
         return HttpResponse(status=404)
-    return HttpResponse(status=404)
+    current_user = User.objects.get(username=username)
+    serverisexist = Server.objects.filter(server_name=server_name).exists()
+    if not serverisexist:
+        return HttpResponse(status=404)
+    current_server = Server.objects.get(server_name=server_name)
+    if not current_user.check_password(password):
+        return HttpResponse(status=404)
+    server_userobj = ServerUser.objects.filter(
+                    server_id=current_server.id,
+                    user_id=current_user.id).exists()
+    if not server_userobj:
+        return HttpResponse(status=404)
+    token, _ = ServerToken.objects.get_or_create(server=current_server)
+    token.key = secrets.token_hex(20)
+    token.save()
+    return Response({'token': token.key, 'server_id': current_server.id})

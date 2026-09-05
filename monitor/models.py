@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.html import mark_safe
 from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -30,11 +31,10 @@ class Ram(models.Model):
 
     # linked server_id. server_id click event "go to <id> server update page"
     def server_link(self):
-        return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change",
-                                        args=(self.server_id,)),
-                                        escape(self.server_id))
+        return mark_safe('<a href="%s">%s</a>' % (
+            reverse("admin:monitor_server_change", args=(self.server_id,)),
+            self.server_id))
 
-    server_link.allow_tags = True
     server_link.short_description = "Server ID"
 
     def __str__(self):
@@ -49,11 +49,10 @@ class Cpu(models.Model):
            default=timezone.now)
 
     def server_link(self):
-        return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change",
-                                        args=(self.server_id,)),
-                                        escape(self.server_id))
+        return mark_safe('<a href="%s">%s</a>' % (
+            reverse("admin:monitor_server_change", args=(self.server_id,)),
+            self.server_id))
 
-    server_link.allow_tags = True
     server_link.short_description = "Server ID"
 
     def __str__(self):
@@ -71,11 +70,10 @@ class Disk(models.Model):
            default=timezone.now)
 
     def server_link(self):
-        return '<a href="%s">%s</a>' % (reverse("admin:monitor_server_change",
-                                        args=(self.server_id,)),
-                                        escape(self.server_id))
+        return mark_safe('<a href="%s">%s</a>' % (
+            reverse("admin:monitor_server_change", args=(self.server_id,)),
+            self.server_id))
 
-    server_link.allow_tags = True
     server_link.short_description = "Server ID"
 
     def __str__(self):
@@ -86,3 +84,12 @@ class ServerUser(models.Model):
     id = models.AutoField(primary_key=True)
     server_id = models.ManyToManyField(Server)
     user_id = models.ManyToManyField(User)
+
+
+class ServerToken(models.Model):
+    server = models.OneToOneField(Server, on_delete=models.CASCADE)
+    key = models.CharField(max_length=40, unique=True, db_index=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.key
