@@ -1,6 +1,6 @@
 # Django-Monitoring
 Django monitoring web application
-This project runs on Python 3.11 with Django 4.2 LTS.
+This project runs on Python 3.11 with Django 5.2 LTS.
 
 server.py runs on your server which you want to collect data from.
 

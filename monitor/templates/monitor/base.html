@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load staticfiles %}
+{% load static %}
 {% load i18n %}
 
 <html lang="en">
@@ -65,7 +65,11 @@
                         <li><a href="/detail"><i class="fa fa-th-list fa-fw"></i> {% trans 'Server List' %}</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> {% trans 'Logout' %}</a>
+                        <li>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link"><i class="fa fa-sign-out fa-fw"></i> {% trans 'Logout' %}</button>
+                            </form>
                         </li>
                         {% else %}
                         <li><a href="/login"><i class="fa fa-sign-in fa-fw"></i> {% trans 'Sign in' %}</a>
