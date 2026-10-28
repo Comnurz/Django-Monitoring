@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+dump.rdb
+monitoring_server/nohup.out
+monitoring_server/serverid.txt
+monitoring_server/servertoken.txt
+.env
+.env.local
+.venv/
+venv/
